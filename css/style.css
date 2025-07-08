@@ -1,8 +1,28 @@
-#grid-game {
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: "Press Start 2P", system-ui;
+}
+
+body,
+.snake {
+  background-color: #414142;  
+}
+
+#game-board {
+    border-radius: 100px; 
     display: grid;
-    grid-template-columns: repeat(20, 1fr);
-    grid-template-rows: (20, 1fr);
-    width: 500px;
-    height 500px;
-    border: 5px solid black;    
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
+    margin: 5px;
+
+}
+
+.game-border-1{
+    border: #311f1f solid 10px;
+    border-radius: 30px;
+    box-shadow: inset 0 0 0 10px #453535;
 }
