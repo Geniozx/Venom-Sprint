@@ -46,3 +46,23 @@
 // Define food position - food will start at a random location, food will appear in random location 
 // on grid after each time snake eats previous food
 
+//Define HTML elements
+const board = document.getElementById('game-board');
+
+//Define game variables
+let snake = [{x: 14, y: 30}]
+
+//Draw game map, snake, food.
+function draw() {
+    board.innerHTML = '';
+    drawSnake();
+}
+
+//Draw snake
+function drawSnake() {
+    snake.forEach((segment) => {
+        const snakeElement = createGameElement('div', 'snake');
+    });
+}
+
+//create a snake, food
