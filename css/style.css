@@ -22,7 +22,24 @@ body,
 }
 
 .game-border-1{
-    border: #311f1f solid 10px;
-    border-radius: 30px;
-    box-shadow: inset 0 0 0 10px #453535;
+    border: #730808 solid 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 10px #730808;
+}
+
+.game-border-2 {
+    border: #B33C2d solid 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 10px #B33C2D;
+}
+
+#instruction-text {
+    position: absolute;
+    top: 60%;
+    color: #333;
+    width: 300px;
+    text-align: center;
+    text-transform: capitalize;
+    padding: 30px;
+    margin: 0;
 }
