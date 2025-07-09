@@ -5,18 +5,14 @@ body {
     height: 100vh;
     margin: 0;
     font-family: "Press Start 2P", system-ui;
-}
-
-body,
-.snake {
-  background-color: #414142;  
+    background-color: #414142
 }
 
 #game-board {
     border-radius: 100px; 
     display: grid;
-    grid-template-columns: repeat(60, 20px);
-    grid-template-rows: repeat(28, 20px);
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
     margin: 5px;
 
 }
@@ -66,8 +62,8 @@ body,
 }
 
 .snake {
-    border: #5a5a5a 1px dotted;
-
+    border: #0d0606 1px dotted;
+    background-color: #0d0606;
 }
 
 .food {
