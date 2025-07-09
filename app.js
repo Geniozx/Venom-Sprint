@@ -15,11 +15,6 @@
 // As a user i want to see snake expand after each food earned 
 
 
-
-
-
-
-
 // Define score - each snake movement will incease points by 2, score will increase once by 10 each time snake 
 // eats food
 
@@ -47,7 +42,7 @@
 // on grid after each time snake eats previous food
 
 //Define HTML elements
-const board = document.getElementById("game-board");
+const board = document.getElementById('game-board');
 
 //Define game variables
 let snake = [{x: 10, y: 10}]
@@ -67,15 +62,21 @@ function drawSnake() {
     });
 }
 
-//create a snake, food
+//create a snake, food (div)
 function createGameElement(tag, className) {
     const element = document.createElement(tag);
     element.className = className;
     return element;
 }
 
-// Set position of snake or food
+
+// Set position of snake or food on the board
 function setPosition(element, position) {
     element.style.gridColumn = position.x;
     element.style.gridRow = position.y;
 }
+
+
+//
+draw();
+
