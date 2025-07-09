@@ -45,7 +45,7 @@
 const board = document.getElementById('game-board');
 
 //Define game variables
-let snake = [{ x: 10, y: 10 }];
+let snake = [{x: 10, y: 10}]
 
 //Draw game map, snake, food.
 function draw() {
@@ -69,11 +69,14 @@ function createGameElement(tag, className) {
     return element;
 }
 
+
 // Set position of snake or food on the board
 function setPosition(element, position) {
     element.style.gridColumn = position.x;
     element.style.gridRow = position.y;
 }
 
+
 //
 draw();
+
