@@ -320,5 +320,3 @@ function addFoodScore() {
     updateScore();
 }
 
-
-
