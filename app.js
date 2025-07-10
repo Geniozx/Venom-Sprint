@@ -48,13 +48,14 @@ const highScoreText = document.getElementById('highScore');
 
 //Define game variables
 const gridSize = 20;
-let snake = [{ x: 10, y: 10 }];
+let snake = [{x: 10, y: 10 }];
 let food = generateFood();
 let highScore = 0
 let direction = "right";
 let gameInterval;
 let gameSpeedDelay = 250;
 let gameStarted = false;
+let movementScore = 0;
 
 //Draw game map, snake, food.
 function draw() { 
@@ -138,7 +139,25 @@ function move() {
   }
 }
 
+// Patch move to add food score when snake eats food
+const prevMove = move;
+move = function() {
+    const prevHead = { ...snake[0] };
+    prevMove.apply(this, arguments);
+    // If snake head is now at food position, add food score
+    if (prevHead.x !== food.x || prevHead.y !== food.y) {
+        // Snake did not eat food
+        return;
+    }
+    addFoodScore();
+};
 
+// Patch updateScore to include foodScore
+const prevUpdateScore = updateScore;
+updateScore = function() {
+    const currentScore = snake.length - 1 + movementScore + foodScore;
+    score.textContent = currentScore.toString().padStart(5, '0');
+};
 // Test moving
 //   setInterval(() => {
 //       move(); // move snake first
@@ -153,7 +172,7 @@ function move() {
     logo.style.display = "none";
     gameInterval = setInterval(() => {
       move();
-    //   checkCollision();
+      checkCollision(); 
       draw();
     }, gameSpeedDelay);
   }
@@ -223,8 +242,28 @@ function resetGame() {
 
 function updateScore() {
     const currentScore = snake.length - 1;
-    score.textContent = currentScore.toString().padStart(5,'0');
+    score.textContent = currentScore.toString().padStart(4,'0');
 }
+
+function addMovementScore() {
+    movementScore += 10;
+    updateScore();
+}
+
+// Update updateScore to include movementScore
+const originalUpdateScore = updateScore;
+updateScore = function() {
+    const currentScore = snake.length - 1 + movementScore;
+    score.textContent = currentScore.toString().padStart(4, '0');
+};
+
+// Add movement score on each move
+const originalMoveWithWin = move;
+move = function() {
+    addMovementScore();
+    originalMoveWithWin.apply(this, arguments);
+    checkWin();
+};
 
 function stopGame() {
     clearInterval(gameInterval);
@@ -234,11 +273,51 @@ function stopGame() {
 }
 
 function updateHighScore() {
-    const currentScore = snake.length - 1;
+    const currentScore = snake.length - 1 + movementScore + foodScore;
     if (currentScore > highScore) {
         highScore = currentScore;
-        highScoreText.textContent = highScore.toString().padStart(5,'0');
     }
+    highScoreText.textContent = currentScore.toString().padStart(4, '0');
     highScoreText.style.display = 'block';
 }
+
+function checkWin() {
+    const currentScore = snake.length - 1;
+    if (currentScore >= 5000) {
+        renderEndMessage("You Win! 🎉");
+        stopGame();
+    }
+}
+
+function renderEndMessage(message) {
+    instructionText.textContent = message;
+    instructionText.style.display = 'block';
+    logo.style.display = 'block';
+}
+
+// Modify resetGame to show lose message
+function resetGame() {
+    updateHighScore();
+    stopGame();
+    renderEndMessage("Game Over! Try Again.");
+    snake = [{x: 10, y: 10}];
+    food = generateFood();
+    direction = 'right';
+    gameSpeedDelay = 250;
+    updateScore();
+}
+
+// Call checkWin after each move
+const originalMove = move;
+move = function() {
+    originalMove.apply(this, arguments);
+    checkWin();
+};
+let foodScore = 0;
+
+function addFoodScore() {
+    foodScore += 100;
+    updateScore();
+}
+
 

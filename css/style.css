@@ -11,6 +11,84 @@ body {
 #game-board {
     border-radius: 100px; 
     display: grid;
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
+    margin: 5px;
+
+}
+
+.game-border-1{
+    border: #5a0b0bb0 solid 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 10px #5a0b0bb0;
+}
+
+.game-border-2 {
+    border: #B33C2d solid 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 10px #B33C2D;
+}
+
+#instruction-text {
+    position: absolute;
+    top: 82%;
+    color: #333;
+    width: 300px;
+    text-align: center;
+    text-transform: capitalize;
+    padding: 30px;
+    margin: 0;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+}
+
+#score {
+    color: #B33C2D;
+}
+
+#score,
+#highScore {
+    font-size: 40px;
+    font-weight: bolder;
+    margin: 10px 0;
+}
+
+#highScore {
+    color: #5a0b0bb0;
+}
+
+.snake {
+    border: #0d0606 1px dotted;
+    background-color: #0d0606;
+}
+
+.food {
+    background-color: #dedede;
+    border: #999 5px solid;
+}
+
+#logo {
+    position: absolute;
+    height: 45%;
+}
+
+@media (min-width: 320px) and (max-width: 1200px) {
+    body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: "Press Start 2P", system-ui;
+    background-color: #414142
+}
+
+#game-board {
+    border-radius: 100px; 
+    display: grid;
     grid-template-columns: repeat(60, 20px);
     grid-template-rows: repeat(28, 20px);
     margin: 5px;
@@ -74,4 +152,4 @@ body {
     position: absolute;
     height: 65%;
 }
-
+}
