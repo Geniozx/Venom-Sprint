@@ -11,8 +11,8 @@ body {
 #game-board {
     border-radius: 100px; 
     display: grid;
-    grid-template-columns: repeat(20, 20px);
-    grid-template-rows: repeat(20, 20px);
+    grid-template-columns: repeat(60, 20px);
+    grid-template-rows: repeat(28, 20px);
     margin: 5px;
 
 }
@@ -31,7 +31,7 @@ body {
 
 #instruction-text {
     position: absolute;
-    top: 60%;
+    top: 80%;
     color: #333;
     width: 300px;
     text-align: center;
@@ -58,7 +58,6 @@ body {
 
 #highScore {
     color: #5a0b0bb0;
-    display: none;
 }
 
 .snake {
