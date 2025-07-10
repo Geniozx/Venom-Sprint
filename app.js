@@ -73,6 +73,7 @@ function createGameElement(tag, className) {
     return element;
 }
 
+
 // Set position of snake or food on the board
 function setPosition(element, position) {
     element.style.gridColumn = position.x;
@@ -124,4 +125,9 @@ setInterval(() => {
     move(); // move snake first
     draw(); //draw again to the new position
 }, 200);
+=======
+
+//
+draw();
+
 
