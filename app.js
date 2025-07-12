@@ -40,7 +40,7 @@
 // on grid after each time snake eats previous food
 
 //Define HTML elements
-const board = document.getElementById("game-board"); // console.log(board); 
+const board = document.getElementById("game-board"); 
 const instructionText = document.getElementById("instruction-text");
 const logo = document.getElementById("logo");
 const score = document.getElementById('score')
@@ -158,12 +158,7 @@ updateScore = function() {
     const currentScore = snake.length - 1 + movementScore + foodScore;
     score.textContent = currentScore.toString().padStart(5, '0');
 };
-// Test moving
-//   setInterval(() => {
-//       move(); // move snake first
-//       draw(); //draw again to the new position
-//   }, 250);
-  
+
 
   // Starting the game
   function startGame() {
@@ -206,7 +201,6 @@ updateScore = function() {
 document.addEventListener("keydown", handleKeyPress);
 
 function increaseSpeed() {
-//   console.log(gameSpeedDelay); For test
   if (gameSpeedDelay > 150) {
     gameSpeedDelay -= 5;
   } else if (gameSpeedDelay > 100 ) {
@@ -319,4 +313,3 @@ function addFoodScore() {
     foodScore += 100;
     updateScore();
 }
-

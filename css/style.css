@@ -32,8 +32,8 @@ body {
 #instruction-text {
     position: absolute;
     top: 82%;
-    color: #333;
-    width: 300px;
+    color: #5a5959;
+    width: 600px;
     text-align: center;
     text-transform: capitalize;
     padding: 30px;
@@ -51,7 +51,7 @@ body {
 
 #score,
 #highScore {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: bolder;
     margin: 10px 0;
 }
@@ -61,8 +61,8 @@ body {
 }
 
 .snake {
-    border: #0d0606 1px dotted;
-    background-color: #0d0606;
+    border: #5a5959 1px dotted;
+    background-color: #5a5959;
 }
 
 .food {
@@ -89,8 +89,8 @@ body {
 #game-board {
     border-radius: 100px; 
     display: grid;
-    grid-template-columns: repeat(60, 20px);
-    grid-template-rows: repeat(28, 20px);
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
     margin: 5px;
 
 }
@@ -129,7 +129,7 @@ body {
 
 #score,
 #highScore {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: bolder;
     margin: 10px 0;
 }
@@ -153,3 +153,4 @@ body {
     height: 65%;
 }
 }
+
