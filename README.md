@@ -7,6 +7,7 @@ Link - https://geniozx.github.io/Venom-Sprint/
 Attributions - https://developer.mozilla.org/en-US/docs/Web/CSS/position 
 <!-- Helped me position the logo and instruction text   -->
 
+https://generalassembly.instructure.com/courses/821/pages/intro-to-javascript-functions?module_item_id=75298
 
 https://www.google.com/search?q=typing+js+code+for+arrow+keys+in+javascript&sca_esv=9faf4b2dd5f8b9e4&sxsrf=AE3TifNxeVtb6zSp8bw32FXKeDk3C8GGNQ%3A1752349219929&source=hp&ei=I7pyaIzANZG5mtkPprqsuA8&iflsig=AOw8s4IAAAAAaHLIM5Vsrplq7bszlap81iUy5p2hppNz&oq=typing+JS+code+for+arrow+keys&gs_lp=Egdnd3Mtd2l6Ih10eXBpbmcgSlMgY29kZSBmb3IgYXJyb3cga2V5cyoCCAIyBRAhGKABMgUQIRigATIFECEYoAEyBRAhGKABMgUQIRirAjIFECEYqwJI3YoCUPMxWIbqAXAOeACQAQCYAYMBoAGTHqoBBTI5LjEzuAEByAEA-AEBmAI4oALzHqgCCsICBxAjGCcY6gLCAgcQLhgnGOoCwgIKECMYgAQYJxiKBcICBBAjGCfCAhEQLhiABBixAxjRAxiDARjHAcICCxAAGIAEGLEDGIMBwgIOEAAYgAQYsQMYgwEYigXCAg4QLhiABBixAxjRAxjHAcICCBAuGIAEGLEDwgIFEAAYgATCAgUQLhiABMICDRAjGPAFGIAEGCcYigXCAggQABiABBjJA8ICCxAAGIAEGLEDGIoFwgIEEAAYA8ICCBAAGIAEGLEDwgILEC4YgAQY0QMYxwHCAgsQLhiABBixAxiDAcICERAuGIAEGLEDGIMBGMcBGK8BwgIHEAAYgAQYCsICBhAAGBYYHsICCBAAGBYYChgewgILEAAYgAQYhgMYigXCAggQABiABBiiBMICBRAAGO8FmAME8QWhxNKkodvcTZIHBTQzLjEzoAfEpAKyBwUyOS4xM7gH1R7CBwcxNS40MC4xyAdF&sclient=gws-wiz#vhid=zephyr:0&vssid=atritem-
 <!-- For arrow key functionality and assitance with using correct code **Thank you AI OVERVIEW** Example:
