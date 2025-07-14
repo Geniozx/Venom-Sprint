@@ -52,6 +52,7 @@ let gameInterval;
 let gameSpeedDelay = 250;
 let gameStarted = false;
 let movementScore = 0;
+let foodScore = 0;
 
 //Draw game map, snake, food.
 function draw() { 
@@ -245,7 +246,7 @@ const originalUpdateScore = updateScore;
 updateScore = function() {
     const currentScore = snake.length - 1 + movementScore;
     score.textContent = currentScore.toString().padStart(4, '0');
-};
+}
 
 // Add movement score on each move
 const originalMoveWithWin = move;
@@ -253,7 +254,7 @@ move = function() {
     addMovementScore();
     originalMoveWithWin.apply(this, arguments);
     checkWin();
-};
+}
 
 function stopGame() {
     clearInterval(gameInterval);
@@ -272,10 +273,11 @@ function updateHighScore() {
 }
 
 function checkWin() {
-    const currentScore = snake.length - 1;
+    const currentScore = (snake.length - 1) + movementScore + foodScore;
     if (currentScore >= 5000) {
         renderEndMessage("You Win! 🎉");
         stopGame();
+        resetGame();
     }
 }
 
@@ -303,7 +305,6 @@ move = function() {
     originalMove.apply(this, arguments);
     checkWin();
 };
-let foodScore = 0;
 
 function addFoodScore() {
     foodScore += 100;
