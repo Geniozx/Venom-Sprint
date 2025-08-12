@@ -1,4 +1,4 @@
-![alt text](<Venom Sprint.png>)
+![alt text](<Venom-Sprint.png>)
 
 Game name - Vemon Sprint
 
@@ -62,4 +62,5 @@ function createGameElement(tag, className) {  // create an argument, tag is the 
 
 ======Technologies Used=======
 HTML,JavsScript, CSS, PNG File
+
 
