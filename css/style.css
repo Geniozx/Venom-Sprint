@@ -1,0 +1,155 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: "Press Start 2P", system-ui;
+    background-color: #000;
+}
+
+#game-board {
+    border-radius: 100px; 
+    display: grid;
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
+    margin: 5px;
+
+}
+
+.game-border-1{
+    border: #c00 solid 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 10px #c00;
+}
+
+.game-border-2 {
+    border: #fff solid 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 10px #fff;
+}
+
+#instruction-text {
+    position: absolute;
+    top: 82%;
+    color: #fff;
+    width: 600px;
+    text-align: center;
+    text-transform: capitalize;
+    padding: 30px;
+    margin: 0;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+}
+
+#score {
+    color: #c00;
+}
+
+#score,
+#highScore {
+    font-size: 30px;
+    font-weight: bolder;
+    margin: 10px 0;
+}
+
+#highScore {
+    color: #fff;
+}
+
+.snake {
+    border: #fff 1px dotted;
+    background-color: #000;
+}
+
+.food {
+    background-color: #c00;
+    border: #fff 5px solid;
+}
+
+#logo {
+    position: absolute;
+    height: 45%;
+}
+
+@media (min-width: 320px) and (max-width: 1200px) {
+    body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: "Press Start 2P", system-ui;
+    background-color: #000;
+}
+
+#game-board {
+    border-radius: 100px; 
+    display: grid;
+    grid-template-columns: repeat(20, 20px);
+    grid-template-rows: repeat(20, 20px);
+    margin: 5px;
+
+}
+
+.game-border-1{
+    border: #c00 solid 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 10px #c00;
+}
+
+.game-border-2 {
+    border: #fff solid 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 10px #fff;
+}
+
+#instruction-text {
+    position: absolute;
+    top: 82%;
+    color: #fff;
+    width: 600px;
+    text-align: center;
+    text-transform: capitalize;
+    padding: 30px;
+    margin: 0;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+}
+
+#score {
+    color: #c00;
+}
+
+#score,
+#highScore {
+    font-size: 30px;
+    font-weight: bolder;
+    margin: 10px 0;
+}
+
+#highScore {
+    color: #fff;
+}
+
+.snake {
+    border: #fff 1px dotted;
+    background-color: #000;
+}
+
+.food {
+    background-color: #c00;
+    border: #fff 5px solid;
+}
+
+#logo {
+    position: absolute;
+    height: 45%;
+}
+}
