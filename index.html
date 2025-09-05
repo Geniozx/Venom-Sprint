@@ -1,28 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
-    <title>Venon Sprint</title>    
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="app.js" defer></script>
+  <meta charset="UTF-8">
+  <title>Snake Game</title>
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <div>
-        <div class="scores">
-            <h1 id="score">0000</h1>
-            <h1 id="highScore">0000</h1>
-        </div>
-        <div class="game-border-1">
-            <div class="game-border-2">
-                <div id="game-board"></div>
-            </div>
-        </div>
-    </div>   
-    <h1 id="instruction-text">Spacebar to Start, Use Arrow Keys to move Snake</h1>
-    <img id="logo" src="Venom-Sprint.png" alt="Vemon-Sprint-Logo"/>
+  <h1>🐍 Snake Game</h1>
+
+  <div id="gameContainer">
+    <div id="gameBoardWrapper">
+      <!-- Splash image shown before game starts -->
+      <img id="splashImage" src="./Venom-Sprint.png" alt="Snake Logo">
+      
+      <!-- Canvas hidden initially -->
+      <canvas id="gameBoard" width="400" height="400" style="display:none;"></canvas>
+      
+      <!-- Start instruction overlay -->
+      <div id="startText">
+        <p>Press <b>Space Bar</b> to Start</p>
+      </div>
+    </div>
+
+    <!-- Scoreboard -->
+    <div id="scoreBoard">
+      <p id="score">Score: 0</p>
+      <p id="highScore">High Score: 0</p>
+    </div>
+
+    <!-- Control Buttons -->
+    <div id="controls">
+      <button id="restartBtn">Restart</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="endBtn">End</button>
+      <button id="helpBtn">Help</button>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div id="helpModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>How to Play</h2>
+      <p>Use the arrow keys to move the snake.</p>
+      <p>Eat food to grow longer and increase your score.</p>
+      <p>Avoid running into walls or yourself.</p>
+      <h3>Buttons</h3>
+      <ul>
+        <li><b>Restart</b>: Start a new game</li>
+        <li><b>Pause / Resume</b>: Pause or continue gameplay</li>
+        <li><b>End</b>: Stop the current game</li>
+        <li><b>Help</b>: Open this modal</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="./Venom-Sprint/app.js"></script>
 </body>
 </html>

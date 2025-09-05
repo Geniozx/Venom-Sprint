@@ -1,155 +1,122 @@
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: "Press Start 2P", system-ui;
-    background-color: #000;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f5f5f5;
 }
 
-#game-board {
-    border-radius: 100px; 
-    display: grid;
-    grid-template-columns: repeat(20, 20px);
-    grid-template-rows: repeat(20, 20px);
-    margin: 5px;
-
+h1 {
+  margin: 10px;
 }
 
-.game-border-1{
-    border: #c00 solid 10px;
-    border-radius: 5px;
-    box-shadow: inset 0 0 0 10px #c00;
+#gameBoardWrapper {
+  position: relative;
+  width: 400px; /* matches canvas */
+  height: 400px;
+  margin: 0 auto;
 }
 
-.game-border-2 {
-    border: #fff solid 10px;
-    border-radius: 5px;
-    box-shadow: inset 0 0 0 10px #fff;
+#gameBoard {
+  border: 2px solid #333;
+  background: #fff;
+  display: none;
+  width: 400px;
+  height: 400px;
 }
 
-#instruction-text {
-    position: absolute;
-    top: 82%;
-    color: #fff;
-    width: 600px;
-    text-align: center;
-    text-transform: capitalize;
-    padding: 30px;
-    margin: 0;
+#splashImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px; /* match canvas size */
+  height: 400px;
+  image-rendering: pixelated;
+  z-index: 2;
 }
 
-.scores {
-    display: flex;
-    justify-content: space-between;
+#startText {
+  position: absolute;
+  top: calc(50% + 220px);  /* 50% vertical center + half splash height + offset */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 3;
+  color: #333;
+  display: block;  /* visible before game starts */
+  text-align: center;
 }
 
-#score {
-    color: #c00;
+#scoreBoard {
+  margin: 20px auto 15px auto; /* more space at the bottom */
+  width: 400px;                /* match canvas width */
+  display: flex;
+  justify-content: space-between; /* score left, high score right */
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 15px;          /* optional padding for better spacing */
+  background-color: #f0f0f0;   /* light background to separate from canvas */
+  border-radius: 8px;           /* rounded corners */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* subtle shadow */
 }
 
-#score,
-#highScore {
-    font-size: 30px;
-    font-weight: bolder;
-    margin: 10px 0;
+#scoreBoard p {
+  margin: 0;                  /* remove default paragraph spacing */
+  padding: 5px 10px;
+  color: #333;
 }
 
-#highScore {
-    color: #fff;
+#controls {
+  margin: 15px auto 30px auto; /* moves controls further down */
+  width: 400px;                /* match canvas width */
+  display: flex;
+  justify-content: space-around; /* keep buttons horizontal */
+  padding: 10px 0;
+  background-color: #f9f9f9;   /* slightly different background */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.snake {
-    border: #fff 1px dotted;
-    background-color: #000;
+#controls button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.food {
-    background-color: #c00;
-    border: #fff 5px solid;
+#controls button:hover {
+  background: #45a049;
 }
 
-#logo {
-    position: absolute;
-    height: 45%;
+#controls button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
-@media (min-width: 320px) and (max-width: 1200px) {
-    body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    font-family: "Press Start 2P", system-ui;
-    background-color: #000;
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
 }
 
-#game-board {
-    border-radius: 100px; 
-    display: grid;
-    grid-template-columns: repeat(20, 20px);
-    grid-template-rows: repeat(20, 20px);
-    margin: 5px;
-
+.modal-content {
+  background: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 10px;
+  text-align: left;
 }
 
-.game-border-1{
-    border: #c00 solid 10px;
-    border-radius: 5px;
-    box-shadow: inset 0 0 0 10px #c00;
-}
-
-.game-border-2 {
-    border: #fff solid 10px;
-    border-radius: 5px;
-    box-shadow: inset 0 0 0 10px #fff;
-}
-
-#instruction-text {
-    position: absolute;
-    top: 82%;
-    color: #fff;
-    width: 600px;
-    text-align: center;
-    text-transform: capitalize;
-    padding: 30px;
-    margin: 0;
-}
-
-.scores {
-    display: flex;
-    justify-content: space-between;
-}
-
-#score {
-    color: #c00;
-}
-
-#score,
-#highScore {
-    font-size: 30px;
-    font-weight: bolder;
-    margin: 10px 0;
-}
-
-#highScore {
-    color: #fff;
-}
-
-.snake {
-    border: #fff 1px dotted;
-    background-color: #000;
-}
-
-.food {
-    background-color: #c00;
-    border: #fff 5px solid;
-}
-
-#logo {
-    position: absolute;
-    height: 45%;
-}
-}
+.close { float: right; font-size: 20px; cursor: pointer; }
