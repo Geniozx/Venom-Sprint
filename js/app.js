@@ -27,6 +27,7 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
+
 // Initialize game
 function startGame() {
   snake = [{ x: Math.floor(gridWidth/2), y: Math.floor(gridHeight/2) }];

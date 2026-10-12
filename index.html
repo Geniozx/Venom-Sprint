@@ -1,60 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Snake Game</title>
-  <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
-  <h1>🐍 Snake Game</h1>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <div id="gameContainer">
-    <div id="gameBoardWrapper">
-      <!-- Splash image shown before game starts -->
-      <img id="splashImage" src="./Venom-Sprint.png" alt="Snake Logo">
-      
-      <!-- Canvas hidden initially -->
-      <canvas id="gameBoard" width="400" height="400" style="display:none;"></canvas>
-      
-      <!-- Start instruction overlay -->
-      <div id="startText">
-        <p>Press <b>Space Bar</b> to Start</p>
+    <meta
+      name="description"
+      content="Venom-Sprint — A modern arcade-style Snake game built with vanilla JavaScript, HTML5, and CSS3."
+    >
+
+    <title>Venom-Sprint | Neon Arcade Snake Game</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+
+  <body>
+    <header class="game-header">
+      <p class="game-header__eyebrow">THE NEON ARCADE EXPERIENCE</p>
+
+      <h1 class="game-header__title">
+        VENOM<span>SPRINT</span>
+      </h1>
+
+      <p class="game-header__subtitle">
+        Slither. Survive. Dominate.
+      </p>
+    </header>
+
+    <main class="game-main">
+      <div id="gameContainer">
+        <div id="gameBoardWrapper">
+          <!-- Splash image shown before game starts -->
+          <img
+            id="splashImage"
+            src="./assets/images/Venom-Sprint.png"
+            alt="Venom-Sprint game logo"
+          >
+
+          <canvas
+            id="gameBoard"
+            width="400"
+            height="400"
+            style="display:none;"
+          >
+            Your browser does not support HTML5 Canvas.
+          </canvas>
+
+          <!-- Start instruction overlay -->
+          <div id="startText">
+            <p>Press <b>Space Bar</b> to Start</p>
+          </div>
+        </div>
+
+        <!-- Scoreboard -->
+        <div id="scoreBoard">
+          <p id="score">Score: 0</p>
+          <p id="highScore">High Score: 0</p>
+        </div>
+
+        <div id="controls">
+          <button type="button" id="restartBtn">Restart</button>
+          <button type="button" id="pauseBtn">Pause</button>
+          <button type="button" id="endBtn">End</button>
+          <button type="button" id="helpBtn">Help</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+      <div class="modal-content">
+        <button
+          type="button"
+          class="close"
+          aria-label="Close help"
+        >
+          &times;
+        </button>
+        <h2>How to Play</h2>
+        <p>Use the arrow keys to move the snake.</p>
+        <p>Eat food to grow longer and increase your score.</p>
+        <p>Avoid running into walls or yourself.</p>
+        <h3>Buttons</h3>
+        <ul>
+          <li><b>Restart</b>: Start a new game</li>
+          <li><b>Pause / Resume</b>: Pause or continue gameplay</li>
+          <li><b>End</b>: Stop the current game</li>
+          <li><b>Help</b>: Open this modal</li>
+        </ul>
       </div>
     </div>
 
-    <!-- Scoreboard -->
-    <div id="scoreBoard">
-      <p id="score">Score: 0</p>
-      <p id="highScore">High Score: 0</p>
-    </div>
-
-    <!-- Control Buttons -->
-    <div id="controls">
-      <button id="restartBtn">Restart</button>
-      <button id="pauseBtn">Pause</button>
-      <button id="endBtn">End</button>
-      <button id="helpBtn">Help</button>
-    </div>
-  </div>
-
-  <!-- Help Modal -->
-  <div id="helpModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>How to Play</h2>
-      <p>Use the arrow keys to move the snake.</p>
-      <p>Eat food to grow longer and increase your score.</p>
-      <p>Avoid running into walls or yourself.</p>
-      <h3>Buttons</h3>
-      <ul>
-        <li><b>Restart</b>: Start a new game</li>
-        <li><b>Pause / Resume</b>: Pause or continue gameplay</li>
-        <li><b>End</b>: Stop the current game</li>
-        <li><b>Help</b>: Open this modal</li>
-      </ul>
-    </div>
-  </div>
-
-  <script src="./Venom-Sprint/app.js"></script>
-</body>
+    <script src="./js/app.js"></script>
+  </body>
 </html>
