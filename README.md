@@ -30,9 +30,17 @@ The project is being developed as a portfolio-ready browser game, with an emphas
 
 ### 🏆 Scoring System
 
-- Real-time score tracking.
+Venom-Sprint 2.0 features a movement-based scoring system that rewards both survival and food collection.
+
+- **+1 point** for every successful movement.
+- **+10 bonus points** for collecting food.
+- Collecting food awards **11 points total** for that movement.
+- No points are awarded for movements that result in a collision.
+- Real-time score tracking throughout gameplay.
 - High-score tracking using browser local storage.
 - High scores persist between browser sessions.
+
+High scores are stored using the `venomSprint_v2_highScore` local storage key.
 
 ### 🎛️ Interactive Game Controls
 
@@ -92,6 +100,12 @@ Additional gameplay and modal accessibility improvements are planned.
 | ← | Move left |
 | → | Move right |
 | Space | Start the game |
+| Space (during gameplay) | Pause the game |
+| Space (while paused) | Resume the game |
+
+Holding Space does not repeatedly toggle the pause state.
+
+The game can also be started or restarted using the **Restart** button.
 
 ### Interface Controls
 
@@ -133,29 +147,80 @@ Venom-Sprint/
 │   └── style.css
 │
 ├── js/
-│   └── app.js
+│   ├── app.js
+│   ├── config.js
+│   ├── controls.js
+│   ├── food.js
+│   ├── game.js
+│   ├── main.js
+│   ├── renderer.js
+│   ├── snake.js
+│   └── storage.js
 │
 ├── index.html
 │
 └── README.md
 ```
 
+### JavaScript Architecture
+
+Venom-Sprint 2.0 uses native JavaScript ES modules to separate application responsibilities and improve maintainability.
+
+| Module | Responsibility |
+|---|---|
+| `main.js` | Application entry point |
+| `app.js` | Coordinates gameplay events and browser interface updates |
+| `config.js` | Centralizes grid dimensions and speed configuration |
+| `controls.js` | Manages keyboard input, game buttons, and Help modal interactions |
+| `food.js` | Generates food in unoccupied grid cells |
+| `game.js` | Manages game state, scoring, timers, and lifecycle |
+| `renderer.js` | Renders the snake and food using HTML5 Canvas |
+| `snake.js` | Handles snake initialization, movement, growth, and collision detection |
+| `storage.js` | Manages persistent high-score storage |
+
+### Architecture Overview
+
+```text
+index.html
+    │
+    ▼
+  main.js
+    │
+    ▼
+  app.js
+    │
+    ├── controls.js
+    │
+    ├── game.js
+    │     ├── snake.js
+    │     ├── food.js
+    │     └── config.js
+    │
+    ├── renderer.js
+    │
+    └── storage.js
+```
+
+The application coordinator connects user input, gameplay logic, rendering, and persistent storage.
+
+The game engine communicates gameplay events through callbacks, allowing rendering and interface updates to remain separate from core game rules.
+
 ### Directory Overview
 
-**assets/images/**
+**`assets/images/`**
 Contains game images and branding assets.
 
-**css/**
+**`css/`**
 Contains the arcade design system, responsive layout, and component styling.
 
-**js/**
-Contains the JavaScript gameplay logic and event handling.
+**`js/`**
+Contains the modular JavaScript application.
 
-**index.html**
+**`index.html`**
 Provides the main application structure, game canvas, controls, and Help modal.
 
-**README.md**
-Documents the project, features, setup instructions, and development roadmap.
+**`README.md`**
+Documents the project, features, setup instructions, architecture, and development roadmap.
 
 ---
 
@@ -166,6 +231,7 @@ Documents the project, features, setup instructions, and development roadmap.
 You need:
 
 - A modern web browser.
+- Python 3 or another local HTTP server.
 - Git, if you want to clone the repository.
 - A code editor such as Visual Studio Code (optional).
 
@@ -174,10 +240,8 @@ You need:
 **1. Clone the repository**
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Geniozx/Venom-Sprint.git
 ```
-
-Replace `<repository-url>` with the actual GitHub repository URL.
 
 **2. Navigate into the project**
 
@@ -185,13 +249,31 @@ Replace `<repository-url>` with the actual GitHub repository URL.
 cd Venom-Sprint
 ```
 
-**3. Launch the game**
+**3. Start a local development server**
 
-Open `index.html` in a modern browser.
+Using Python 3:
 
-Alternatively, use a local development server.
+```bash
+python3 -m http.server 5500
+```
 
-No npm installation, build process, or JavaScript framework is required.
+**4. Open the application**
+
+Visit:
+
+`http://localhost:5500`
+
+**5. Start playing**
+
+Press **Space** or click **Restart** to begin.
+
+### Development Notes
+
+Venom-Sprint uses native JavaScript ES modules.
+
+The application should be served over HTTP rather than opened directly using the `file://` protocol.
+
+No npm installation, JavaScript framework, or build process is required.
 
 ---
 
@@ -234,26 +316,67 @@ The stylesheet also defines reusable variables for borders, glow effects, border
 - Added initial accessibility enhancements.
 - Verified existing gameplay functionality.
 
-### ⏳ Phase 2 — JavaScript Architecture
+### ✅ Phase 2 — JavaScript Architecture
 
-**Status: Planned**
+**Status: Complete**
 
-- Refactor the existing JavaScript into ES modules.
-- Separate gameplay responsibilities into dedicated files.
-- Introduce centralized game-state management.
-- Improve code organization and maintainability.
-- Preserve existing gameplay while refactoring.
+Refactored Venom-Sprint into a modular JavaScript application using native ES modules.
+
+#### Architecture Improvements
+
+- Introduced nine dedicated JavaScript modules.
+- Established `main.js` as the application entry point.
+- Centralized game configuration.
+- Centralized gameplay state and lifecycle management.
+- Separated snake movement and collision detection.
+- Isolated food generation.
+- Separated Canvas rendering from gameplay logic.
+- Centralized keyboard and button controls.
+- Extracted persistent high-score management.
+- Introduced callback-based communication between gameplay logic and the application interface.
+
+#### Gameplay Improvements
+
+- Implemented movement-based scoring.
+- Added a 10-point food collection bonus.
+- Prevented food from spawning inside the snake.
+- Improved timer management to prevent duplicate intervals.
+- Implemented Space Bar start, pause, and resume controls.
+- Prevented repeated Space Bar events from rapidly toggling pause.
+- Fixed Restart behavior before the initial game starts.
+- Synchronized the Pause/Resume button with gameplay state.
+- Improved game-over lifecycle cleanup.
+- Preserved high scores between browser sessions.
+
+#### Testing and Verification
+
+- Completed module-by-module functionality testing.
+- Verified gameplay state transitions.
+- Verified scoring and collision behavior.
+- Verified timer creation and cleanup.
+- Verified pause/resume behavior.
+- Verified module loading through browser DevTools.
+- Completed 20 final gameplay regression checks.
+- Verified responsive layout and browser console behavior.
+
+**Result:** Phase 2 established a maintainable foundation for future gameplay enhancements without introducing JavaScript frameworks.
 
 ### ⏳ Phase 3 — Gameplay Improvements
 
 **Status: Planned**
 
-- Improve game restart and reset behavior.
-- Prevent food from spawning inside the snake.
-- Strengthen movement and collision handling.
-- Improve pause and resume behavior.
-- Add clearer game-over feedback.
-- Evaluate additional gameplay enhancements.
+Phase 3 focuses on gameplay reliability, player feedback, and additional mechanics.
+
+Planned improvements include:
+
+- Implement direction locking to prevent multiple direction changes within a single movement tick.
+- Strengthen self-collision handling and movement edge cases.
+- Implement a victory condition when the snake fills the entire board.
+- Improve game-over feedback with a dedicated interface.
+- Introduce clearer gameplay status indicators.
+- Evaluate additional difficulty and gameplay enhancements.
+
+The existing scoring system, food generation, timer management, and pause/resume functionality were completed during Phase 2.
 
 ### ⏳ Future Enhancements
 
@@ -274,12 +397,16 @@ These features are planned or under consideration and are not part of the curren
 
 ## ⚠️ Known Limitations
 
-Venom-Sprint 2.0 is currently undergoing development.
+Venom-Sprint 2.0 remains under active development.
 
-The following areas are scheduled for improvement:
+The following improvements are planned:
 
-- Restart behavior and game-state synchronization.
-- Food spawning and collision edge cases.
-- Rapid direction-change handling.
-- Help modal keyboard accessibility.
-- More comprehensive
+- Rapid direction changes within a single movement tick can bypass the current reversal protection.
+- A full-board victory condition has not yet been implemented.
+- The Help modal needs additional keyboard accessibility improvements.
+- Mobile touch controls are not yet available.
+- Game-over feedback currently uses a browser alert.
+- Snake and food rendering currently use basic Canvas shapes.
+- Additional automated testing and accessibility verification are planned.
+
+These limitations do not prevent the current game from functioning, but they will guide future development phases.

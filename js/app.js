@@ -1,167 +1,157 @@
-// Canvas & context
-const canvas = document.getElementById("gameBoard");
-const ctx = canvas.getContext("2d");
+import { draw } from "./renderer.js";
 
-// Logical grid
-const gridWidth = 20;
-const gridHeight = 20;
-const box = canvas.width / gridWidth; // 20 px per cell
+import {
+  getHighScore,
+  saveHighScore
+} from "./storage.js";
+
+import {
+  setupKeyboardControls,
+  setupButtonControls,
+  setupHelpModal
+} from "./controls.js";
+
+import {
+  createGameState,
+  calculateNextSpeed,
+  resetGameState,
+  startGameTimer,
+  runGameTick,
+  togglePause,
+  finishGame
+} from "./game.js";
+
+// Canvas element used for visibility controls
+const canvas = document.getElementById("gameBoard");
 
 // Game variables
-let snake, food, score, highScore, direction, gameInterval, gameSpeedDelay, isPaused, gameStarted = false;
+const game = createGameState();
 
-// Load high score
-highScore = localStorage.getItem("highScore") 
-  ? parseInt(localStorage.getItem("highScore")) 
-  : 0;
-document.getElementById("highScore").innerText = `High Score: ${highScore}`;
+let highScore = getHighScore();
 
-// Start game on Space Bar
-document.addEventListener("keydown", function(e) {
-  if (!gameStarted && e.code === "Space") {
-    document.getElementById("splashImage").style.display = "none";
-    document.getElementById("startText").style.display = "none";
-    canvas.style.display = "block";
-    startGame();
-    gameStarted = true;
-  }
-});
+document.getElementById("highScore").innerText =
+  `High Score: ${highScore}`;
 
 
 // Initialize game
 function startGame() {
-  snake = [{ x: Math.floor(gridWidth/2), y: Math.floor(gridHeight/2) }];
-  direction = "right";
-  score = 0;
-  gameSpeedDelay = 200;
-  isPaused = false;
+  resetGameState(game);
 
-  document.getElementById("score").innerText = `Score: ${score}`;
-  food = generateFood();
+  document.getElementById("score").innerText =
+    `Score: ${game.score}`;
 
-  if (gameInterval) clearInterval(gameInterval);
-  gameInterval = setInterval(gameLoop, gameSpeedDelay);
+  startGameTimer(game, gameLoop);
+}
+
+// Start a new game and synchronize the interface
+function handleStartGame() {
+  startGame();
+
+  game.gameStarted = true;
+
+  // Hide the splash screen
+  document.getElementById("splashImage").style.display = "none";
+  document.getElementById("startText").style.display = "none";
+
+  // Display the game board
+  canvas.style.display = "block";
+
+  // Reset the Pause button label
+  document.getElementById("pauseBtn").innerText = "Pause";
 }
 
 // Game loop
 function gameLoop() {
-  if (!isPaused) {
-    move();
-    checkCollision();
-    draw();
-  }
+  runGameTick(game, {
+    onFoodEaten: increaseSpeed,
+
+    onScoreChange: (score) => {
+      document.getElementById("score").innerText =
+        `Score: ${score}`;
+    },
+
+    onGameOver: endGame,
+
+    onRender: draw
+  });
 }
 
-// Move snake
-function move() {
-  const head = { ...snake[0] };
-  switch(direction) {
-    case "right": head.x++; break;
-    case "up": head.y--; break;
-    case "left": head.x--; break;
-    case "down": head.y++; break;
+// Pause or resume the current game
+function handlePause() {
+  const changed = togglePause(game);
+
+  if (!changed) {
+    return;
   }
 
-  snake.unshift(head);
-
-  if (head.x === food.x && head.y === food.y) {
-    food = generateFood();
-    score++;
-    document.getElementById("score").innerText = `Score: ${score}`;
-    increaseSpeed();
-  } else {
-    snake.pop();
-  }
-}
-
-// Generate food
-function generateFood() {
-  return {
-    x: Math.floor(Math.random() * gridWidth),
-    y: Math.floor(Math.random() * gridHeight)
-  };
+  document.getElementById("pauseBtn").innerText =
+    game.isPaused ? "Resume" : "Pause";
 }
 
 // Increase speed
 function increaseSpeed() {
-  gameSpeedDelay = Math.max(50, gameSpeedDelay - 10);
-  clearInterval(gameInterval);
-  gameInterval = setInterval(gameLoop, gameSpeedDelay);
-}
+  game.gameSpeedDelay = calculateNextSpeed(
+    game.gameSpeedDelay
+  );
 
-// Draw game
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw snake
-  snake.forEach((segment, index) => {
-    ctx.fillStyle = index === 0 ? "green" : "lightgreen";
-    ctx.fillRect(segment.x * box, segment.y * box, box, box);
-  });
-
-  // Draw food
-  ctx.fillStyle = "red";
-  ctx.fillRect(food.x * box, food.y * box, box, box);
-}
-
-// Collision detection
-function checkCollision() {
-  const head = snake[0];
-
-  // Wall collision
-  if (head.x < 0 || head.x >= gridWidth || head.y < 0 || head.y >= gridHeight) {
-    endGame();
-  }
-
-  // Self collision
-  for (let i = 1; i < snake.length; i++) {
-    if (head.x === snake[i].x && head.y === snake[i].y) endGame();
-  }
+  startGameTimer(game, gameLoop);
 }
 
 // End game
 function endGame() {
-  clearInterval(gameInterval);
-  alert(`Game Over! Final Score: ${score}`);
+  // Stop gameplay and reset lifecycle state
+  finishGame(game);
 
-  if (score > highScore) {
-    highScore = score;
-    localStorage.setItem("highScore", highScore);
-    document.getElementById("highScore").innerText = `High Score: ${highScore}`;
+  // Display final score
+  alert(`Game Over! Final Score: ${game.score}`);
+
+  // Update high score if necessary
+  if (game.score > highScore) {
+    highScore = game.score;
+    saveHighScore(highScore);
+
+    document.getElementById("highScore").innerText =
+      `High Score: ${highScore}`;
   }
 
-  // Reset splash screen
+  // Restore splash screen
   document.getElementById("splashImage").style.display = "block";
   document.getElementById("startText").style.display = "block";
+
   canvas.style.display = "none";
-  gameStarted = false;
+
+  // Restore Pause button to its default state
+  document.getElementById("pauseBtn").innerText = "Pause";
 }
 
-// Controls
-document.addEventListener("keydown", (e) => {
-  if (!gameStarted) return;
-  if (e.key === "ArrowUp" && direction !== "down") direction = "up";
-  if (e.key === "ArrowDown" && direction !== "up") direction = "down";
-  if (e.key === "ArrowLeft" && direction !== "right") direction = "left";
-  if (e.key === "ArrowRight" && direction !== "left") direction = "right";
+setupKeyboardControls(
+  () => game.direction,
+
+  (newDirection) => {
+    game.direction = newDirection;
+  },
+
+  () => game.gameStarted,
+
+  () => {
+    if (!game.gameStarted) {
+      handleStartGame();
+    } else {
+      handlePause();
+    }
+  }
+);
+
+setupButtonControls({
+  onRestart: handleStartGame,
+
+  onPause: handlePause,
+
+  onEnd: () => {
+    if (game.gameStarted) {
+      endGame();
+    }
+  }
 });
 
-// Buttons
-document.getElementById("restartBtn").addEventListener("click", startGame);
-document.getElementById("pauseBtn").addEventListener("click", () => {
-  if (!gameStarted) return;
-  isPaused = !isPaused;
-  document.getElementById("pauseBtn").innerText = isPaused ? "Resume" : "Pause";
-});
-document.getElementById("endBtn").addEventListener("click", () => {
-  if (gameStarted) endGame();
-});
-
-// Modal
-const modal = document.getElementById("helpModal");
-const helpBtn = document.getElementById("helpBtn");
-const closeBtn = document.querySelector(".close");
-
-helpBtn.onclick = () => modal.style.display = "block";
-closeBtn.onclick = () => modal.style.display = "none";
-window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+setupHelpModal();
