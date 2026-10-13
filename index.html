@@ -50,12 +50,55 @@
           <div id="startText">
             <p>Press <b>Space Bar</b> to Start</p>
           </div>
+
+          <!-- Game-over and victory overlay -->
+          <div
+            id="resultOverlay"
+            class="result-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="resultTitle"
+            hidden
+          >
+            <div class="result-overlay__content">
+              <p class="result-overlay__eyebrow">
+                VENOM-SPRINT
+              </p>
+
+              <h2 id="resultTitle">Game Over</h2>
+
+              <p id="resultMessage">
+                Your run has ended.
+              </p>
+
+              <p class="result-overlay__score">
+                Final Score:
+                <span id="resultScore">0</span>
+              </p>
+
+              <button type="button" id="playAgainBtn">
+                Play Again
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Scoreboard -->
         <div id="scoreBoard">
           <p id="score">Score: 0</p>
           <p id="highScore">High Score: 0</p>
+        </div>
+
+        <!-- Current gameplay status -->
+        <div
+          id="gameStatus"
+          class="game-status game-status--ready"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <span class="game-status__dot" aria-hidden="true"></span>
+          <span id="gameStatusText">READY</span>
         </div>
 
         <div id="controls">

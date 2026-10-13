@@ -61,6 +61,27 @@ Venom-Sprint 2.0 introduces a redesigned visual experience featuring:
 - Styled instructional modal.
 - Updated Venom-Sprint branding.
 
+### 🔒 Direction Locking
+
+- Prevents multiple direction changes within a single movement tick.
+- Blocks immediate reverse-direction movement.
+- Accepts valid direction changes when the direction lock is released.
+- Helps prevent accidental self-collisions caused by rapid keyboard input.
+
+### 🏆 Full-Board Victory
+
+- Detects when the snake occupies every available grid cell.
+- Recognizes when no additional food can be generated.
+- Ends gameplay with a dedicated Victory overlay.
+- Provides a Play Again button to start a new game.
+
+### 🎯 Gameplay Feedback
+
+- Displays the current gameplay status: Ready, Playing, Paused, Game Over, or Victory.
+- Uses a dedicated Game Over overlay instead of a browser alert.
+- Provides distinct Game Over and Victory messages.
+- Keeps gameplay status synchronized with game events.
+
 ### 📱 Responsive Design
 
 - Responsive game board that adapts to available screen space.
@@ -157,8 +178,14 @@ Venom-Sprint/
 │   ├── snake.js
 │   └── storage.js
 │
-├── index.html
+├── tests/
+│   ├── controls.test.js
+│   ├── food.test.js
+│   ├── game.test.js
+│   └── snake.test.js
 │
+├── index.html
+├── package.json
 └── README.md
 ```
 
@@ -234,6 +261,7 @@ You need:
 - Python 3 or another local HTTP server.
 - Git, if you want to clone the repository.
 - A code editor such as Visual Studio Code (optional).
+- Node.js 20 or later (only required for automated testing).
 
 ### Installation
 
@@ -273,7 +301,35 @@ Venom-Sprint uses native JavaScript ES modules.
 
 The application should be served over HTTP rather than opened directly using the `file://` protocol.
 
-No npm installation, JavaScript framework, or build process is required.
+No npm installation, JavaScript framework, or build process is required to play the game.
+
+### Automated Testing
+
+Venom-Sprint includes a permanent automated regression test suite built with Node.js and its native test runner.
+
+No third-party testing libraries are required.
+
+To run the tests, navigate to the project directory and execute:
+
+```bash
+npm test
+```
+
+The test command executes all test files inside the `tests/` directory.
+
+The regression suite covers:
+
+- Snake movement, growth, and collision detection.
+- Food generation and full-board detection.
+- Scoring and victory conditions.
+- Game state resets and lifecycle management.
+- Pause/resume functionality and timer behavior.
+- Direction locking and keyboard input validation.
+- Speed acceleration and minimum delay enforcement.
+
+**Phase 3 verification:** 31 tests passed with zero failures.
+
+Node.js is required for automated testing but is not required to run the game in a browser.
 
 ---
 
@@ -361,22 +417,99 @@ Refactored Venom-Sprint into a modular JavaScript application using native ES mo
 
 **Result:** Phase 2 established a maintainable foundation for future gameplay enhancements without introducing JavaScript frameworks.
 
-### ⏳ Phase 3 — Gameplay Improvements
+### ✅ Phase 3 — Gameplay Improvements
 
-**Status: Planned**
+**Status: Complete**
 
-Phase 3 focuses on gameplay reliability, player feedback, and additional mechanics.
+Phase 3 focused on strengthening gameplay reliability, improving player feedback, and introducing permanent automated regression testing.
 
-Planned improvements include:
+The improvements build upon the modular JavaScript architecture established during Phase 2.
 
-- Implement direction locking to prevent multiple direction changes within a single movement tick.
-- Strengthen self-collision handling and movement edge cases.
-- Implement a victory condition when the snake fills the entire board.
-- Improve game-over feedback with a dedicated interface.
-- Introduce clearer gameplay status indicators.
-- Evaluate additional difficulty and gameplay enhancements.
+#### Direction Locking
 
-The existing scoring system, food generation, timer management, and pause/resume functionality were completed during Phase 2.
+- Implemented direction locking to prevent multiple direction changes within a single movement tick.
+- Prevented rapid keyboard input from bypassing reverse-direction protection.
+- Automatically releases the direction lock after each movement tick.
+- Preserved valid directional input when the game is active and the direction lock is released.
+- Verified direction locking and reverse-direction protection through automated regression tests.
+
+#### Movement and Collision Reliability
+
+- Verified movement in all four directions.
+- Strengthened testing around wall and self-collisions.
+- Confirmed that the snake grows correctly when food is consumed.
+- Verified that unsuccessful movements do not award points.
+- Preserved the movement-based scoring system introduced during Phase 2.
+
+#### Full-Board Victory
+
+- Implemented victory detection when the snake occupies every available grid cell.
+- Updated food generation to return `null` when no unoccupied cells remain.
+- Integrated victory detection into the game engine.
+- Added a dedicated victory callback to the gameplay lifecycle.
+- Verified full-board victory through automated regression testing.
+
+#### Game Over and Victory Interface
+
+- Replaced browser-alert game-over feedback with a dedicated result overlay.
+- Introduced distinct Game Over and Victory messages.
+- Added a Play Again action to restart gameplay.
+- Integrated result overlays with the existing game lifecycle.
+- Verified overlay behavior through manual browser testing.
+
+#### Gameplay Status Indicators
+
+- Introduced visible gameplay status indicators.
+- Added support for Ready, Playing, Paused, Game Over, and Victory states.
+- Synchronized status indicators with gameplay events.
+- Improved player feedback during game transitions.
+- Verified status behavior through manual browser testing.
+
+#### Permanent Automated Regression Testing
+
+Introduced a permanent automated test suite using Node.js and its built-in test runner.
+
+The suite covers:
+
+- Snake initialization and directional movement.
+- Snake growth and collision detection.
+- Food generation and full-board detection.
+- Movement scoring and food collection bonuses.
+- Collision scoring protection.
+- Full-board victory detection.
+- Game state initialization and reset behavior.
+- Speed restoration and acceleration limits.
+- Pause and resume functionality.
+- Inactive game protection.
+- Game-over lifecycle cleanup.
+- Timer startup and shutdown.
+- Paused gameplay protection.
+- Direction locking and keyboard input validation.
+
+The project includes a dedicated `tests/` directory and an npm test command.
+
+Run the automated regression suite with:
+
+```bash
+npm test
+```
+
+**Final Phase 3 regression results:**
+
+```text
+Tests: 31
+Passed: 31
+Failed: 0
+```
+
+#### Phase 3 Verification
+
+- Completed manual browser verification of the Game Over and Victory result overlay.
+- Completed manual browser verification of gameplay status indicators.
+- Verified core gameplay functionality through automated regression testing.
+- Confirmed that all 31 permanent regression tests pass.
+
+**Result:** Phase 3 improved gameplay reliability, introduced clearer player feedback, and established a permanent automated testing foundation for future development.
 
 ### ⏳ Future Enhancements
 
@@ -399,14 +532,16 @@ These features are planned or under consideration and are not part of the curren
 
 Venom-Sprint 2.0 remains under active development.
 
-The following improvements are planned:
+The following improvements are planned or under consideration:
 
-- Rapid direction changes within a single movement tick can bypass the current reversal protection.
-- A full-board victory condition has not yet been implemented.
-- The Help modal needs additional keyboard accessibility improvements.
-- Mobile touch controls are not yet available.
-- Game-over feedback currently uses a browser alert.
-- Snake and food rendering currently use basic Canvas shapes.
-- Additional automated testing and accessibility verification are planned.
+- Additional keyboard accessibility improvements for the Help modal.
+- Mobile touch controls for touchscreen gameplay.
+- More detailed snake and food graphics beyond the current basic Canvas shapes.
+- Additional accessibility verification across browsers and devices.
+- Expanded automated testing for browser-specific interactions and interface behavior.
 
-These limitations do not prevent the current game from functioning, but they will guide future development phases.
+These limitations do not prevent the game from functioning.
+
+Phase 3 resolved the previously documented direction-locking, full-board victory, and browser-alert game-over limitations. It also introduced a permanent automated regression suite.
+
+Future development will focus on additional accessibility, mobile usability, and gameplay enhancements.
