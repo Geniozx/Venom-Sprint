@@ -7,6 +7,7 @@ import {
 
 import {
   setupKeyboardControls,
+  setupMobileControls,
   setupButtonControls,
   setupHelpModal
 } from "./controls.js";
@@ -255,6 +256,21 @@ setupKeyboardControls(
   () => game.directionLocked
 );
 
+
+// Initialize mobile directional controls
+setupMobileControls(
+  () => game.direction,
+
+  (newDirection) => {
+    game.direction = newDirection;
+    game.directionLocked = true;
+  },
+
+  () => game.gameStarted,
+
+  () => game.directionLocked
+);
+
 setupButtonControls({
   onRestart: handleStartGame,
 
@@ -266,6 +282,13 @@ setupButtonControls({
     }
   }
 });
+
+// Initialize mobile start button
+const mobileStartBtn = document.getElementById("mobileStartBtn");
+
+if (mobileStartBtn) {
+  mobileStartBtn.addEventListener("click", handleStartGame);
+}
 
 setupHelpModal();
 

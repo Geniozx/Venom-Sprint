@@ -48,7 +48,21 @@
 
           <!-- Start instruction overlay -->
           <div id="startText">
-            <p>Press <b>Space Bar</b> to Start</p>
+
+            <!-- Desktop instruction -->
+            <p class="start-text__desktop">
+              Press <b>Space Bar</b> to Start
+            </p>
+
+            <!-- Mobile start button -->
+            <button
+              type="button"
+              id="mobileStartBtn"
+              class="start-text__mobile"
+            >
+              Tap Here to Start
+            </button>
+
           </div>
 
           <!-- Game-over and victory overlay -->
@@ -101,6 +115,50 @@
           <span id="gameStatusText">READY</span>
         </div>
 
+        <!-- Mobile directional controls -->
+        <div
+          id="mobileControls"
+          class="mobile-controls"
+          role="group"
+          aria-label="Snake movement controls"
+        >
+          <button
+            type="button"
+            class="mobile-controls__button mobile-controls__button--up"
+            data-direction="up"
+            aria-label="Move up"
+          >
+            ▲
+          </button>
+
+          <button
+            type="button"
+            class="mobile-controls__button mobile-controls__button--left"
+            data-direction="left"
+            aria-label="Move left"
+          >
+            ◀
+          </button>
+
+          <button
+            type="button"
+            class="mobile-controls__button mobile-controls__button--down"
+            data-direction="down"
+            aria-label="Move down"
+          >
+            ▼
+          </button>
+
+          <button
+            type="button"
+            class="mobile-controls__button mobile-controls__button--right"
+            data-direction="right"
+            aria-label="Move right"
+          >
+            ▶
+          </button>
+        </div>
+
         <div id="controls">
           <button type="button" id="restartBtn">Restart</button>
           <button type="button" id="pauseBtn">Pause</button>
@@ -111,7 +169,13 @@
     </main>
 
     <!-- Help Modal -->
-    <div id="helpModal" class="modal">
+    <div
+      id="helpModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="helpModalTitle"
+    >
       <div class="modal-content">
         <button
           type="button"
@@ -120,7 +184,7 @@
         >
           &times;
         </button>
-        <h2>How to Play</h2>
+        <h2 id="helpModalTitle">How to Play</h2>
         <p>Use the arrow keys to move the snake.</p>
         <p>Eat food to grow longer and increase your score.</p>
         <p>Avoid running into walls or yourself.</p>

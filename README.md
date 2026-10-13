@@ -44,10 +44,18 @@ High scores are stored using the `venomSprint_v2_highScore` local storage key.
 
 ### 🎛️ Interactive Game Controls
 
+Venom-Sprint supports both desktop keyboard controls and touchscreen gameplay.
+
+- **Desktop:** Use the arrow keys to move the snake.
+- **Space Bar:** Start, pause, or resume gameplay.
+- **Mobile:** Use the on-screen directional controls to move the snake.
+- **Mobile Start:** Tap the "Tap Here to Start" button to begin gameplay.
 - **Restart:** Begin a new game.
 - **Pause / Resume:** Temporarily stop or continue gameplay.
 - **End:** Stop the current game.
 - **Help:** Open an instructional modal explaining gameplay and controls.
+
+Directional input includes reverse-direction protection and movement-tick locking to prevent invalid or excessively rapid direction changes.
 
 ### 🎨 Neon Arcade Interface
 
@@ -84,22 +92,38 @@ Venom-Sprint 2.0 introduces a redesigned visual experience featuring:
 
 ### 📱 Responsive Design
 
-- Responsive game board that adapts to available screen space.
-- Viewport-aware sizing for desktop and laptop displays.
-- Responsive button layouts.
-- Mobile-friendly scoreboard adjustments.
-- Layout improvements that reduce unnecessary vertical scrolling.
+Venom-Sprint 2.0 includes a responsive gameplay interface optimized for desktop and mobile devices.
+
+- Responsive game board that adapts to available viewport dimensions.
+- Compact mobile header and gameplay layout.
+- Dedicated mobile directional controls.
+- Two-row mobile D-pad with comfortable touchscreen targets.
+- Single-row action controls on mobile devices.
+- Responsive scoreboard and gameplay status indicators.
+- Viewport-aware game board sizing.
+- Mobile start button integrated into the game board.
+- Reduced unnecessary vertical spacing and scrolling.
+- Verified responsive layouts at 360 × 640, 390 × 844, and 430 × 932 viewport dimensions.
 
 ### ♿ Accessibility Improvements
 
-- Semantic HTML structure.
-- Explicit button types.
-- Descriptive canvas labeling.
-- Canvas fallback text.
-- Visible keyboard focus indicators.
-- Support for reduced-motion preferences.
+Venom-Sprint includes accessibility features designed to improve keyboard navigation, screen-reader compatibility, and touchscreen usability.
 
-Additional gameplay and modal accessibility improvements are planned.
+- Semantic HTML structure and explicit button types.
+- Descriptive Canvas labeling and fallback text.
+- Visible keyboard focus indicators.
+- Keyboard-accessible gameplay controls.
+- Accessible Help modal with dialog semantics.
+- Automatic focus management when opening and closing the Help modal.
+- Keyboard focus containment while the Help modal is open.
+- Escape key support for closing the Help modal.
+- Accessible labels for mobile directional controls.
+- ARIA status announcements configured using `role="status"` and `aria-live="polite"`.
+- Accessible Game Over and Victory dialog markup.
+- Support for reduced-motion preferences.
+- Touchscreen controls designed to prevent accidental page scrolling during directional input.
+
+Keyboard interaction, accessibility attributes, and mobile usability have been manually verified. Full screen-reader announcement testing remains a future enhancement.
 
 ---
 
@@ -127,6 +151,30 @@ Additional gameplay and modal accessibility improvements are planned.
 Holding Space does not repeatedly toggle the pause state.
 
 The game can also be started or restarted using the **Restart** button.
+
+### Mobile Controls
+
+Venom-Sprint supports touchscreen gameplay on mobile devices.
+
+1. Open Venom-Sprint in a mobile browser.
+2. Tap **Tap Here to Start** to begin gameplay.
+3. Use the on-screen directional buttons to control the snake.
+4. Collect food to increase your score.
+5. Avoid collisions with walls and your snake's body.
+6. Use the Restart, Pause, End, and Help buttons as needed.
+
+#### Mobile Directional Controls
+
+| Button | Action |
+|---|---|
+| ▲ | Move up |
+| ▼ | Move down |
+| ◀ | Move left |
+| ▶ | Move right |
+
+The mobile directional controls share the same movement validation and direction-locking behavior as desktop keyboard controls.
+
+The mobile interface automatically adjusts the game board and controls to fit different viewport sizes.
 
 ### Interface Controls
 
@@ -327,7 +375,9 @@ The regression suite covers:
 - Direction locking and keyboard input validation.
 - Speed acceleration and minimum delay enforcement.
 
-**Phase 3 verification:** 31 tests passed with zero failures.
+**Latest verification (Phase 4):** 31 tests passed with zero failures.
+
+The automated suite covers core gameplay and keyboard input behavior. Mobile touchscreen interactions and modal accessibility were additionally verified through manual browser and physical-device testing.
 
 Node.js is required for automated testing but is not required to run the game in a browser.
 
@@ -511,18 +561,88 @@ Failed: 0
 
 **Result:** Phase 3 improved gameplay reliability, introduced clearer player feedback, and established a permanent automated testing foundation for future development.
 
+### ✅ Phase 4 — Accessibility & Mobile Controls
+
+**Status: Complete**
+
+Phase 4 focused on improving accessibility, introducing touchscreen gameplay, and optimizing the mobile experience while preserving existing desktop functionality.
+
+#### Help Modal Accessibility
+
+- Added accessible dialog semantics to the Help modal.
+- Implemented automatic keyboard focus management.
+- Added keyboard focus containment within the modal.
+- Added Escape key support for closing the modal.
+- Restored focus to the Help button when the modal closes.
+- Verified keyboard navigation using Tab and Shift + Tab.
+- Confirmed visible keyboard focus indicators.
+
+#### Mobile Directional Controls
+
+- Introduced a dedicated mobile D-pad.
+- Added Up, Down, Left, and Right directional buttons.
+- Implemented shared direction validation for keyboard and mobile input.
+- Preserved reverse-direction protection.
+- Preserved movement-tick direction locking.
+- Added descriptive accessibility labels to directional buttons.
+- Prevented unwanted page scrolling during D-pad interaction.
+- Verified directional gameplay on a physical mobile device.
+
+#### Mobile Start Interaction
+
+- Added a responsive mobile start instruction.
+- Preserved the desktop Space Bar instruction.
+- Introduced a dedicated "Tap Here to Start" button.
+- Connected the mobile Start button to the existing gameplay lifecycle.
+- Verified mobile game initialization and desktop keyboard compatibility.
+
+#### Responsive Mobile Layout
+
+- Reorganized the CSS stylesheet for improved maintainability.
+- Consolidated mobile responsive rules.
+- Reduced unnecessary mobile header spacing.
+- Optimized the mobile D-pad into a compact two-row layout.
+- Reorganized action controls into a single mobile row.
+- Introduced viewport-aware mobile game board sizing.
+- Eliminated vertical overflow at the tested 668px viewport height.
+- Verified layouts at 360 × 640, 390 × 844, and 430 × 932.
+- Confirmed that the game board and controls remain accessible.
+- Verified Game Over overlay readability and Play Again functionality.
+
+#### Accessibility Verification
+
+- Verified Help modal keyboard navigation.
+- Verified keyboard gameplay controls.
+- Confirmed visible focus indicators.
+- Verified accessible labels for mobile directional controls.
+- Confirmed ARIA attributes for gameplay status updates.
+- Verified accessible Help and result dialog markup.
+- Completed physical mobile usability testing.
+
+#### Regression Testing
+
+Completed the permanent automated regression suite using Node.js.
+
+**Final Phase 4 automated test results:**
+
+```text
+Tests: 31
+Passed: 31
+Failed: 0
+
+```
 ### ⏳ Future Enhancements
 
 Potential additions include:
 
-- Dedicated game-over interface.
-- Game start and pause overlays.
 - Sound effects and audio controls.
-- Improved keyboard and modal accessibility.
+- Dedicated pause overlay.
 - Additional visual effects.
-- Mobile touch controls.
+- More detailed snake and food graphics.
 - Expanded scoring features.
 - Additional game modes.
+- Screen-reader testing with VoiceOver and TalkBack.
+- Expanded automated browser interaction testing.
 
 These features are planned or under consideration and are not part of the current implementation.
 
@@ -534,14 +654,16 @@ Venom-Sprint 2.0 remains under active development.
 
 The following improvements are planned or under consideration:
 
-- Additional keyboard accessibility improvements for the Help modal.
-- Mobile touch controls for touchscreen gameplay.
-- More detailed snake and food graphics beyond the current basic Canvas shapes.
-- Additional accessibility verification across browsers and devices.
+- Full screen-reader verification using VoiceOver and TalkBack.
+- Additional browser and device compatibility testing.
+- More detailed snake and food graphics beyond the current Canvas shapes.
 - Expanded automated testing for browser-specific interactions and interface behavior.
+- Further responsive optimization for unusually small mobile viewports.
 
 These limitations do not prevent the game from functioning.
 
-Phase 3 resolved the previously documented direction-locking, full-board victory, and browser-alert game-over limitations. It also introduced a permanent automated regression suite.
+Phase 3 resolved direction-locking, full-board victory, and browser-alert game-over limitations.
 
-Future development will focus on additional accessibility, mobile usability, and gameplay enhancements.
+Phase 4 introduced mobile touchscreen controls, improved keyboard and modal accessibility, and optimized responsive gameplay layouts.
+
+Future development will focus on continued accessibility improvements, gameplay enhancements, and broader browser compatibility.
