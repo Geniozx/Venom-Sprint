@@ -14,6 +14,16 @@ Featuring a neon-inspired interface, responsive game board, dynamic difficulty, 
 
 Venom-Sprint 2.0 is a portfolio-ready browser game showcasing modular JavaScript architecture, HTML5 Canvas rendering, responsive design, accessibility improvements, arcade audio, customizable visual settings, and automated regression testing.
 
+## 🎮 Live Demo
+
+Play Venom-Sprint 2.0 directly in your browser:
+
+**[Play Venom-Sprint 2.0](https://geniozx.github.io/Venom-Sprint/)**
+
+No installation required. Supports desktop and mobile devices.
+
+**[View Source Code](https://github.com/Geniozx/Venom-Sprint)**
+
 ---
 
 ## 🎮 Features
@@ -706,9 +716,9 @@ Failed: 0
 
 ```
 
-### ⏳ Phase 5 — Arcade Polish, Final QA & Deployment
+### ✅ Phase 5 — Arcade Polish, Final QA & Deployment
 
-**Status: In Progress — Final Documentation and Deployment**
+**Status: Complete — Venom-Sprint 2.0 Released**
 
 Phase 5 transforms Venom-Sprint into a polished, portfolio-ready arcade game with enhanced visuals, audio, customizable settings, and comprehensive quality assurance.
 
@@ -750,13 +760,17 @@ Phase 5 transforms Venom-Sprint into a polished, portfolio-ready arcade game wit
 - Verified gameplay, audio, settings, mobile controls, and splash artwork.
 - Removed temporary testing code.
 
-#### 5.6 — Portfolio Preparation & Deployment ⏳
+#### 5.6 — Portfolio Preparation & Deployment ✅
 
 - Completed production-readiness checks.
 - Configured GitHub Pages deployment from `main` and `/(root)`.
 - Prepared a dedicated gameplay screenshot for the README and portfolio.
-- Updating final project documentation.
-- Pending final Git commit, push, and live deployment verification.
+- Completed final project documentation.
+- Committed and pushed the Venom-Sprint 2.0 release to GitHub.
+- Successfully deployed Venom-Sprint 2.0 to GitHub Pages.
+- Verified that the live game loads and functions correctly.
+
+**Live Demo:** [Play Venom-Sprint 2.0](https://geniozx.github.io/Venom-Sprint/)
 
 **Release target:** Venom-Sprint 2.0 — portfolio-ready arcade game.
 
@@ -780,7 +794,7 @@ These features are planned or under consideration and are not part of the curren
 
 ## ⚠️ Known Limitations
 
-Venom-Sprint 2.0 has completed its planned gameplay development and final quality assurance. Release documentation and deployment verification are in progress.
+Venom-Sprint 2.0 has completed its planned development, final quality assurance, and production deployment. The game is publicly available through GitHub Pages and has been verified to function correctly in the tested environments.
 
 The following areas remain opportunities for future improvement:
 
