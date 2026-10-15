@@ -131,3 +131,68 @@ test("setupKeyboardControls accepts valid direction changes", () => {
     globalThis.document = originalDocument;
   }
 });
+
+
+test("setupKeyboardControls ignores gameplay input while Settings is open", () => {
+  const originalDocument = globalThis.document;
+
+  let keydownHandler = null;
+  let direction = "right";
+  let pauseCount = 0;
+
+  // Simulate an open Settings modal
+  globalThis.document = {
+    getElementById(id) {
+      if (id === "settingsModal") {
+        return { hidden: false };
+      }
+
+      if (id === "helpModal") {
+        return { style: { display: "none" } };
+      }
+
+      return null;
+    },
+
+    addEventListener(eventType, handler) {
+      if (eventType === "keydown") {
+        keydownHandler = handler;
+      }
+    }
+  };
+
+  try {
+    setupKeyboardControls(
+      () => direction,
+      (newDirection) => {
+        direction = newDirection;
+      },
+      () => true,
+      () => {
+        pauseCount++;
+      },
+      () => false
+    );
+
+    // Attempt to change direction
+    keydownHandler({
+      key: "ArrowUp",
+      code: "ArrowUp",
+      preventDefault() {}
+    });
+
+    // Attempt to pause or resume
+    keydownHandler({
+      key: " ",
+      code: "Space",
+      preventDefault() {}
+    });
+
+    // Neither action should affect gameplay
+    assert.equal(direction, "right");
+    assert.equal(pauseCount, 0);
+
+  } finally {
+    globalThis.document = originalDocument;
+  }
+});

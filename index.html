@@ -33,7 +33,7 @@
           <!-- Splash image shown before game starts -->
           <img
             id="splashImage"
-            src="./assets/images/Venom-Sprint.png"
+            src="./assets/images/Neon Venom Sprint Arcade Splash.png"
             alt="Venom-Sprint game logo"
           >
 
@@ -164,6 +164,18 @@
           <button type="button" id="pauseBtn">Pause</button>
           <button type="button" id="endBtn">End</button>
           <button type="button" id="helpBtn">Help</button>
+          <button type="button" id="settingsBtn">Settings</button>
+
+          <!-- Sound toggle -->
+          <button
+            type="button"
+            id="soundBtn"
+            aria-label="Mute sound"
+            aria-pressed="false"
+            title="Mute sound"
+          >
+            🔊
+          </button>
         </div>
       </div>
     </main>
@@ -194,7 +206,55 @@
           <li><b>Pause / Resume</b>: Pause or continue gameplay</li>
           <li><b>End</b>: Stop the current game</li>
           <li><b>Help</b>: Open this modal</li>
+          <li><b>🔊 / 🔇</b>: Turn game sounds on or off</li>
         </ul>
+      </div>
+    </div>
+
+    <!-- Player Settings Modal -->
+    <div
+      id="settingsModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="settingsModalTitle"
+      hidden
+    >
+      <div class="modal-content">
+        <button
+          type="button"
+          id="closeSettingsBtn"
+          class="close"
+          aria-label="Close settings"
+        >
+          &times;
+        </button>
+
+        <h2 id="settingsModalTitle">Player Settings</h2>
+
+        <div class="settings-options">
+          <label for="showGridSetting">
+            <input
+              type="checkbox"
+              id="showGridSetting"
+              checked
+            />
+            Show Grid
+          </label>
+
+          <label for="visualEffectsSetting">
+            <input
+              type="checkbox"
+              id="visualEffectsSetting"
+              checked
+            />
+            Visual Effects
+          </label>
+        </div>
+
+        <p class="settings-note">
+          Your preferences are saved automatically.
+        </p>
       </div>
     </div>
 

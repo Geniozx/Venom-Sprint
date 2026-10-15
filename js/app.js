@@ -1,6 +1,17 @@
 import { draw } from "./renderer.js";
 
 import {
+  initializeAudio,
+  playFoodSound,
+  playStartSound,
+  playGameOverSound,
+  playVictorySound,
+  playPauseSound,
+  isSoundEnabled,
+  setSoundEnabled
+} from "./audio.js";
+
+import {
   getHighScore,
   saveHighScore
 } from "./storage.js";
@@ -9,7 +20,8 @@ import {
   setupKeyboardControls,
   setupMobileControls,
   setupButtonControls,
-  setupHelpModal
+  setupHelpModal,
+  setupSettingsModal
 } from "./controls.js";
 
 import {
@@ -46,6 +58,11 @@ function startGame() {
 
 // Start a new game and synchronize the interface
 function handleStartGame() {
+  // Unlock browser audio when the player starts the game
+  initializeAudio().then(() => {
+    playStartSound();
+  });
+
   // Hide the previous result screen
   document.getElementById("resultOverlay").hidden = true;
 
@@ -94,6 +111,9 @@ function handlePause() {
     return;
   }
 
+  // Play the appropriate pause or resume sound
+  playPauseSound(game.isPaused);
+
   document.getElementById("pauseBtn").innerText =
     game.isPaused ? "Resume" : "Pause";
 
@@ -103,6 +123,9 @@ function handlePause() {
 
 // Increase speed
 function increaseSpeed() {
+  // Play food collection sound
+  playFoodSound();
+
   game.gameSpeedDelay = calculateNextSpeed(
     game.gameSpeedDelay
   );
@@ -114,6 +137,9 @@ function increaseSpeed() {
 function endGame() {
     // Stop the game and reset its lifecycle state
     finishGame(game);
+
+    // Play the game-over sound
+    playGameOverSound();
 
     // Save a new high score if achieved
     if (game.score > highScore) {
@@ -143,6 +169,9 @@ function endGame() {
 function handleVictory() {
     // Stop the game and reset its lifecycle state
     finishGame(game);
+
+    // Play the victory melody
+    playVictorySound();
 
     // Save a new high score if achieved
     if (game.score > highScore) {
@@ -291,6 +320,44 @@ if (mobileStartBtn) {
 }
 
 setupHelpModal();
+setupSettingsModal();
+
+// ========================================
+// SOUND TOGGLE
+// ========================================
+
+const soundBtn = document.getElementById("soundBtn");
+
+// Keep the sound button synchronized with the saved preference
+function updateSoundButton() {
+  const enabled = isSoundEnabled();
+
+  soundBtn.textContent = enabled ? "🔊" : "🔇";
+
+  soundBtn.setAttribute(
+    "aria-label",
+    enabled ? "Mute sound" : "Unmute sound"
+  );
+
+  soundBtn.setAttribute(
+    "aria-pressed",
+    String(!enabled)
+  );
+
+  soundBtn.title = enabled ? "Mute sound" : "Unmute sound";
+}
+
+// Restore the correct icon when the page loads
+updateSoundButton();
+
+// Toggle sound when clicked
+soundBtn.addEventListener("click", () => {
+  const newSoundState = !isSoundEnabled();
+
+  setSoundEnabled(newSoundState);
+
+  updateSoundButton();
+});
 
 // Restart the game from the result overlay
 document.getElementById("playAgainBtn").addEventListener(

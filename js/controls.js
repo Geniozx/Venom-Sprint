@@ -1,3 +1,8 @@
+import {
+  getSettings,
+  updateSetting
+} from "./settings.js";
+
 // Validate and apply a direction change
 export function changeDirection(
     newDirection,
@@ -47,24 +52,37 @@ export function setupKeyboardControls(
     isDirectionLocked
 )   {
     document.addEventListener("keydown", (event) => {
+        // Prevent gameplay shortcuts while a modal is open
+        const settingsModal = document.getElementById?.("settingsModal");
+        const helpModal = document.getElementById?.("helpModal");
+
+        const settingsOpen = settingsModal && !settingsModal.hidden;
+
+        const helpOpen =
+            helpModal && helpModal.style.display === "block";
+
+        if (settingsOpen || helpOpen) {
+            return;
+        }
+
         // Handle Space Bar
-if (event.code === "Space") {
-        // Allow focused buttons to handle Space naturally
-        if (event.target instanceof Element &&
-            event.target.closest("button")) {
+        if (event.code === "Space") {
+            // Allow focused buttons to handle Space naturally
+            if (event.target instanceof Element &&
+                event.target.closest("button")) {
+                return;
+            }
+
+            event.preventDefault();
+
+            // Prevent holding Space from repeatedly toggling pause
+            if (event.repeat) {
+                return;
+            }
+
+            onSpace();
             return;
         }
-
-        event.preventDefault();
-
-        // Prevent holding Space from repeatedly toggling pause
-        if (event.repeat) {
-            return;
-        }
-
-        onSpace();
-        return;
-    }
 
         // Ignore directional input when the game is inactive
         if (!isGameStarted()) {
@@ -192,6 +210,97 @@ export function setupHelpModal() {
 
             // The close button is currently the only focusable element
             closeBtn.focus();
+        }
+    });
+}
+
+
+// ========================================
+// PLAYER SETTINGS MODAL
+// ========================================
+
+export function setupSettingsModal() {
+    const modal = document.getElementById("settingsModal");
+    const settingsBtn = document.getElementById("settingsBtn");
+    const closeBtn = document.getElementById("closeSettingsBtn");
+
+    const gridCheckbox = document.getElementById("showGridSetting");
+    const effectsCheckbox = document.getElementById("visualEffectsSetting");
+
+    const focusableElements = [
+        closeBtn,
+        gridCheckbox,
+        effectsCheckbox
+    ];
+
+    function openSettingsModal() {
+    // Load the player's current preferences
+    const settings = getSettings();
+
+    gridCheckbox.checked = settings.showGrid;
+    effectsCheckbox.checked = settings.visualEffects;
+
+    modal.hidden = false;
+    modal.style.display = "block";
+
+    modal.inert = false;
+
+    closeBtn.focus();
+    }
+
+    function closeSettingsModal() {
+        modal.hidden = true;
+        modal.style.display = "none";
+
+        settingsBtn.focus();
+    }
+
+    settingsBtn.addEventListener("click", openSettingsModal);
+
+    closeBtn.addEventListener("click", closeSettingsModal);
+
+    // Save grid visibility preference
+    gridCheckbox.addEventListener("change", () => {
+    updateSetting("showGrid", gridCheckbox.checked);
+    });
+
+    // Save visual effects preference
+    effectsCheckbox.addEventListener("change", () => {
+    updateSetting("visualEffects", effectsCheckbox.checked);
+    });
+
+    // Close when clicking outside the modal content
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            closeSettingsModal();
+        }
+    });
+
+    // Escape closes the modal
+    modal.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            event.preventDefault();
+            closeSettingsModal();
+            return;
+        }
+
+        // Keep Tab navigation inside the Settings modal
+        if (event.key === "Tab") {
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[
+            focusableElements.length - 1
+        ];
+
+        if (event.shiftKey && document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement.focus();
+        } else if (
+            !event.shiftKey &&
+            document.activeElement === lastElement
+        ) {
+            event.preventDefault();
+            firstElement.focus();
+        }
         }
     });
 }

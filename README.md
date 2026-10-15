@@ -2,17 +2,58 @@
 
 ### Slither. Survive. Dominate.
 
-![Venom-Sprint Game Preview](./assets/images/Venom-Sprint.png)
+![Venom-Sprint Game Preview](./assets/images/Neon Venom Sprint Arcade Splash.png)
+
+### Gameplay Preview
+
+![Venom-Sprint Gameplay](./assets/screenshots/venom-sprint-gameplay-thumbnail.png)
 
 **Venom-Sprint 2.0** is a modern, arcade-inspired Snake game built entirely with **vanilla JavaScript, HTML5, and CSS3**.
 
 Featuring a neon-inspired interface, responsive game board, dynamic difficulty, and interactive player controls, Venom-Sprint brings a fresh visual experience to the classic Snake game.
 
-The project is being developed as a portfolio-ready browser game, with an emphasis on clean architecture, responsive design, accessibility, and maintainable JavaScript.
+Venom-Sprint 2.0 is a portfolio-ready browser game showcasing modular JavaScript architecture, HTML5 Canvas rendering, responsive design, accessibility improvements, arcade audio, customizable visual settings, and automated regression testing.
 
 ---
 
 ## 🎮 Features
+
+### ✨ Venom-Sprint 2.0 Arcade Enhancements
+
+Phase 5 introduces a polished arcade experience with enhanced visuals, sound effects, customizable settings, and improved result screens.
+
+#### Visual Enhancements
+
+- Neon green snake with a directional head and rounded body segments.
+- Glowing purple food with a soft radial halo.
+- Refined Canvas rendering and arcade-inspired visual effects.
+- Custom neon arcade splash artwork.
+- Responsive gameplay presentation across desktop and mobile devices.
+
+#### Arcade Audio
+
+- Sound effects for starting, pausing, and resuming gameplay.
+- Food collection feedback.
+- Distinct Game Over and Victory sounds.
+- Dedicated Sound On/Off control.
+- Sound preferences saved using browser local storage.
+
+#### Customizable Settings
+
+- Settings modal accessible from the main controls.
+- Show Grid option to enable or disable the game-board grid.
+- Visual Effects option to enable or disable snake and food glow effects.
+- Settings saved automatically using browser local storage.
+- Preferences restored when the page reloads.
+- Keyboard-accessible settings with focus management and Escape key support.
+
+#### Enhanced Result Screens
+
+- Dedicated Game Over and Victory overlays.
+- Final score displayed prominently.
+- Neon arcade styling and animations.
+- Play Again functionality.
+- Keyboard focus management for result interactions.
 
 ### 🐍 Classic Snake Gameplay
 
@@ -54,8 +95,12 @@ Venom-Sprint supports both desktop keyboard controls and touchscreen gameplay.
 - **Pause / Resume:** Temporarily stop or continue gameplay.
 - **End:** Stop the current game.
 - **Help:** Open an instructional modal explaining gameplay and controls.
+- **Settings:** Open the settings modal to customize grid visibility and visual effects.
+- **Sound On / Off:** Toggle arcade sound effects without interrupting gameplay.
 
 Directional input includes reverse-direction protection and movement-tick locking to prevent invalid or excessively rapid direction changes.
+
+On mobile devices, the six primary action controls are arranged in two rows of three buttons for improved accessibility and usability.
 
 ### 🎨 Neon Arcade Interface
 
@@ -98,7 +143,7 @@ Venom-Sprint 2.0 includes a responsive gameplay interface optimized for desktop 
 - Compact mobile header and gameplay layout.
 - Dedicated mobile directional controls.
 - Two-row mobile D-pad with comfortable touchscreen targets.
-- Single-row action controls on mobile devices.
+- Mobile action controls arranged in two rows of three buttons for improved usability.
 - Responsive scoreboard and gameplay status indicators.
 - Viewport-aware game board sizing.
 - Mobile start button integrated into the game board.
@@ -195,11 +240,13 @@ Venom-Sprint is intentionally built without JavaScript frameworks.
 |---|---|
 | HTML5 | Page structure and game canvas |
 | CSS3 | Styling, animations, and responsive layouts |
-| JavaScript | Gameplay logic and user interactions |
-| Canvas API | Rendering the snake, food, and game board |
-| Local Storage API | Saving high scores |
+| JavaScript (ES Modules) | Modular gameplay logic and user interactions |
+| Canvas API | Rendering the snake, food, grid, and visual effects |
+| Web Audio API | Generating arcade sound effects |
+| Local Storage API | Persisting high scores, audio preferences, and visual settings |
+| Node.js Test Runner | Automated gameplay and control regression tests |
 | Git | Version control |
-| GitHub | Source code hosting |
+| GitHub | Source code hosting and GitHub Pages deployment |
 
 ---
 
@@ -209,20 +256,24 @@ Venom-Sprint is intentionally built without JavaScript frameworks.
 Venom-Sprint/
 │
 ├── assets/
-│   └── images/
-│       └── Venom-Sprint.png
+│   ├── images/
+│   │   └── Neon Venom Sprint Arcade Splash.png
+│   └── screenshots/
+│       └── venom-sprint-gameplay-thumbnail.png
 │
 ├── css/
 │   └── style.css
 │
 ├── js/
 │   ├── app.js
+│   ├── audio.js
 │   ├── config.js
 │   ├── controls.js
 │   ├── food.js
 │   ├── game.js
 │   ├── main.js
 │   ├── renderer.js
+│   ├── settings.js
 │   ├── snake.js
 │   └── storage.js
 │
@@ -244,12 +295,14 @@ Venom-Sprint 2.0 uses native JavaScript ES modules to separate application respo
 | Module | Responsibility |
 |---|---|
 | `main.js` | Application entry point |
-| `app.js` | Coordinates gameplay events and browser interface updates |
+| `app.js` | Coordinates gameplay events, audio, settings, and browser interface updates |
+| `audio.js` | Generates arcade sound effects using the Web Audio API and manages sound preferences |
 | `config.js` | Centralizes grid dimensions and speed configuration |
-| `controls.js` | Manages keyboard input, game buttons, and Help modal interactions |
+| `controls.js` | Manages keyboard input, game buttons, and modal interactions |
 | `food.js` | Generates food in unoccupied grid cells |
 | `game.js` | Manages game state, scoring, timers, and lifecycle |
-| `renderer.js` | Renders the snake and food using HTML5 Canvas |
+| `renderer.js` | Renders the snake, food, grid, and visual effects using HTML5 Canvas |
+| `settings.js` | Manages persistent visual preferences, including grid visibility and effects |
 | `snake.js` | Handles snake initialization, movement, growth, and collision detection |
 | `storage.js` | Manages persistent high-score storage |
 
@@ -265,6 +318,10 @@ index.html
   app.js
     │
     ├── controls.js
+    │
+    ├── audio.js
+    │
+    ├── settings.js
     │
     ├── game.js
     │     ├── snake.js
@@ -283,19 +340,28 @@ The game engine communicates gameplay events through callbacks, allowing renderi
 ### Directory Overview
 
 **`assets/images/`**
-Contains game images and branding assets.
+Contains the neon arcade splash artwork and game branding assets.
+
+**`assets/screenshots/`**
+Contains the active gameplay screenshot used for the README and developer portfolio.
 
 **`css/`**
-Contains the arcade design system, responsive layout, and component styling.
+Contains the arcade design system, responsive layouts, animations, and component styling.
 
 **`js/`**
-Contains the modular JavaScript application.
+Contains the modular JavaScript application, including gameplay logic, Canvas rendering, audio, settings, and browser interactions.
+
+**`tests/`**
+Contains automated regression tests for gameplay, snake movement, food generation, and controls.
 
 **`index.html`**
-Provides the main application structure, game canvas, controls, and Help modal.
+Provides the main application structure, game canvas, controls, Help modal, and Settings modal.
+
+**`package.json`**
+Defines project metadata and the automated test command.
 
 **`README.md`**
-Documents the project, features, setup instructions, architecture, and development roadmap.
+Documents the project's features, architecture, setup instructions, testing, and development roadmap.
 
 ---
 
@@ -375,7 +441,15 @@ The regression suite covers:
 - Direction locking and keyboard input validation.
 - Speed acceleration and minimum delay enforcement.
 
-**Latest verification (Phase 4):** 31 tests passed with zero failures.
+**Latest verification (Phase 5):** 32 automated tests passed with zero failures.
+
+Phase 5 final quality assurance also confirmed:
+
+- **32/32 automated regression tests passed.**
+- **7/7 JavaScript syntax checks passed.**
+- **60/60 manual QA checks passed**, covering gameplay, arcade audio, customizable settings, mobile responsiveness, and splash artwork.
+
+These results were verified before preparing the Venom-Sprint 2.0 release.
 
 The automated suite covers core gameplay and keyboard input behavior. Mobile touchscreen interactions and modal accessibility were additionally verified through manual browser and physical-device testing.
 
@@ -602,7 +676,7 @@ Phase 4 focused on improving accessibility, introducing touchscreen gameplay, an
 - Consolidated mobile responsive rules.
 - Reduced unnecessary mobile header spacing.
 - Optimized the mobile D-pad into a compact two-row layout.
-- Reorganized action controls into a single mobile row.
+- Initially organized mobile action controls into a single row; later refined the layout to two rows of three buttons during Phase 5.
 - Introduced viewport-aware mobile game board sizing.
 - Eliminated vertical overflow at the tested 668px viewport height.
 - Verified layouts at 360 × 640, 390 × 844, and 430 × 932.
@@ -631,18 +705,74 @@ Passed: 31
 Failed: 0
 
 ```
+
+### ⏳ Phase 5 — Arcade Polish, Final QA & Deployment
+
+**Status: In Progress — Final Documentation and Deployment**
+
+Phase 5 transforms Venom-Sprint into a polished, portfolio-ready arcade game with enhanced visuals, audio, customizable settings, and comprehensive quality assurance.
+
+#### 5.1 — Gameplay Visual Polish ✅
+
+- Introduced a neon arcade visual style.
+- Enhanced the snake with directional eyes and rounded, glowing body segments.
+- Redesigned food with a glowing circular appearance.
+- Refined the game board and grid rendering.
+- Added polished arcade splash artwork.
+
+#### 5.2 — Arcade Sound Effects ✅
+
+- Introduced sound effects using the Web Audio API.
+- Added audio feedback for gameplay events, including food collection, game over, victory, and pause/resume.
+- Added a dedicated sound toggle.
+- Persisted sound preferences using local storage.
+
+#### 5.3 — Result Screen Polish ✅
+
+- Enhanced Game Over and Victory overlays.
+- Improved score presentation and visual animations.
+- Refined Play Again interactions.
+- Improved keyboard focus management and accessibility.
+
+#### 5.4 — Settings & Customization ✅
+
+- Introduced a dedicated Settings modal.
+- Added Show Grid and Visual Effects preferences.
+- Persisted visual preferences using local storage.
+- Implemented accessible modal keyboard navigation.
+- Integrated settings into Canvas rendering.
+
+#### 5.5 — Final QA & Testing ✅
+
+- Passed all 32 automated regression tests.
+- Passed all 7 JavaScript syntax checks.
+- Completed 60 manual QA checks.
+- Verified gameplay, audio, settings, mobile controls, and splash artwork.
+- Removed temporary testing code.
+
+#### 5.6 — Portfolio Preparation & Deployment ⏳
+
+- Completed production-readiness checks.
+- Configured GitHub Pages deployment from `main` and `/(root)`.
+- Prepared a dedicated gameplay screenshot for the README and portfolio.
+- Updating final project documentation.
+- Pending final Git commit, push, and live deployment verification.
+
+**Release target:** Venom-Sprint 2.0 — portfolio-ready arcade game.
+
+---
+
 ### ⏳ Future Enhancements
 
 Potential additions include:
 
-- Sound effects and audio controls.
 - Dedicated pause overlay.
-- Additional visual effects.
-- More detailed snake and food graphics.
-- Expanded scoring features.
-- Additional game modes.
+- Expanded scoring features and achievements.
+- Additional game modes and difficulty presets.
+- Optional music and expanded arcade soundtracks.
 - Screen-reader testing with VoiceOver and TalkBack.
 - Expanded automated browser interaction testing.
+- Additional cross-browser compatibility testing.
 
 These features are planned or under consideration and are not part of the current implementation.
 
@@ -650,20 +780,24 @@ These features are planned or under consideration and are not part of the curren
 
 ## ⚠️ Known Limitations
 
-Venom-Sprint 2.0 remains under active development.
+Venom-Sprint 2.0 has completed its planned gameplay development and final quality assurance. Release documentation and deployment verification are in progress.
 
-The following improvements are planned or under consideration:
+The following areas remain opportunities for future improvement:
 
 - Full screen-reader verification using VoiceOver and TalkBack.
-- Additional browser and device compatibility testing.
-- More detailed snake and food graphics beyond the current Canvas shapes.
+- Broader browser and device compatibility testing.
 - Expanded automated testing for browser-specific interactions and interface behavior.
 - Further responsive optimization for unusually small mobile viewports.
+- Additional gameplay modes, scoring features, and customization options.
 
-These limitations do not prevent the game from functioning.
+These limitations do not prevent the game from functioning in the environments tested during development.
 
-Phase 3 resolved direction-locking, full-board victory, and browser-alert game-over limitations.
+### Development Milestones
 
-Phase 4 introduced mobile touchscreen controls, improved keyboard and modal accessibility, and optimized responsive gameplay layouts.
+**Phase 3** resolved direction-locking, full-board victory, and browser-alert game-over limitations.
+
+**Phase 4** introduced mobile touchscreen controls, improved keyboard and modal accessibility, and optimized responsive gameplay layouts.
+
+**Phase 5** introduced neon arcade visuals, sound effects, customizable settings, enhanced result screens, and comprehensive final quality assurance.
 
 Future development will focus on continued accessibility improvements, gameplay enhancements, and broader browser compatibility.

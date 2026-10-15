@@ -136,7 +136,7 @@ export function runGameTick(
     onScoreChange(game.score);
 
     // Notify the application that the board needs rendering
-    onRender(game.snake, game.food);
+    onRender(game.snake, game.food, game.direction);
 
     // End the session when the player fills the board
     if (result.hasWon) {

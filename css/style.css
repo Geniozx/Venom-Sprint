@@ -145,7 +145,13 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+
+  /* Preserve the entire splash image */
+  object-fit: contain;
+
+  /* Match the arcade background */
+  background: #080b12;
+
   border-radius: calc(var(--radius-md) - 2px);
   image-rendering: auto;
   z-index: 2;
@@ -291,12 +297,12 @@ body {
 ======================================== */
 #controls {
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   margin: 10px auto 12px;
   padding: 10px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) 44px;
+  gap: 8px;
   background: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -389,6 +395,26 @@ body {
 #helpBtn:hover:not(:disabled) {
   background: rgba(148, 163, 184, 0.2);
   color: var(--text-primary);
+}
+
+/* Sound — Audio toggle */
+#soundBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px;
+  font-size: 20px;
+  line-height: 1;
+
+  background: rgba(168, 85, 247, 0.12);
+  color: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+}
+
+#soundBtn:hover:not(:disabled) {
+  background: rgba(168, 85, 247, 0.22);
+  box-shadow: var(--glow-purple);
 }
 
 /* ========================================
@@ -537,6 +563,75 @@ body {
 }
 
 /* ========================================
+   PLAYER SETTINGS
+======================================== */
+
+/* Keep the settings dialog hidden until opened */
+#settingsModal[hidden] {
+  display: none !important;
+}
+
+/* Settings options layout */
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 24px;
+  margin-bottom: 20px;
+}
+
+/* Individual setting */
+.settings-options label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+
+  color: var(--text-primary);
+  background: var(--bg-surface);
+
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  border-radius: var(--radius-sm);
+
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.settings-options label:hover {
+  border-color: var(--accent-primary);
+}
+
+/* Checkbox appearance */
+.settings-options input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  flex-shrink: 0;
+
+  accent-color: #39ff88;
+  cursor: pointer;
+}
+
+.settings-options input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 4px;
+}
+
+/* Settings description */
+.settings-note {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ========================================
    HELP MODAL CLOSE BUTTON
 ======================================== */
 .close {
@@ -607,6 +702,22 @@ body {
     text-align: center;
 }
 
+@keyframes resultCardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.result-overlay:not([hidden]) .result-overlay__content {
+  animation: resultCardEntrance 350ms ease-out both;
+}
+
 .result-overlay__eyebrow {
     margin: 0 0 12px;
     color: var(--text-secondary);
@@ -632,14 +743,32 @@ body {
 }
 
 .result-overlay__score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
     margin: 0 0 24px;
-    color: var(--text-primary);
-    font-size: 18px;
+    padding: 16px 20px;
+
+    background: rgba(8, 11, 18, 0.65);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+
+    color: var(--text-secondary);
+    font-size: 12px;
     font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 #resultScore {
     color: var(--accent-primary);
+    font-size: clamp(32px, 8vw, 44px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-shadow: var(--glow-green);
 }
 
 #playAgainBtn {
@@ -668,7 +797,6 @@ body {
     outline-offset: 3px;
 }
 
-/* Victory appearance */
 .result-overlay--victory .result-overlay__content {
     border-color: var(--accent-primary);
     box-shadow:
@@ -681,6 +809,31 @@ body {
     text-shadow: var(--glow-green);
 }
 
+.result-overlay--victory {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(34, 197, 94, 0.12),
+            rgba(8, 11, 18, 0.94) 70%
+        );
+}
+
+.result-overlay--victory .result-overlay__score {
+    border-color: var(--accent-primary);
+    background: rgba(34, 197, 94, 0.06);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
+}
+
+.result-overlay--victory #resultScore {
+    text-shadow:
+        0 0 12px rgba(34, 197, 94, 0.7),
+        0 0 25px rgba(34, 197, 94, 0.35);
+}
+
+.result-overlay--victory #playAgainBtn {
+    box-shadow: var(--glow-green);
+}
+
 /* ========================================
    MOBILE LAYOUT & CONTROLS — ≤480px
 ======================================== */
@@ -690,7 +843,7 @@ body {
   width: min(
     100%,
     400px,
-    max(180px, calc(100dvh - 390px))
+    max(180px, calc(100dvh - 440px))
   );
 }
 
@@ -744,17 +897,17 @@ body {
 
 /* Compact mobile action controls */
 #controls {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 6px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 5px;
 
-  margin: 6px auto 8px;
+  margin: 6px auto;
   padding: 6px;
 }
 
 #controls button {
   min-height: 44px;
 
-  padding: 8px 4px;
+  padding: 6px 4px;
 
   font-size: 12px;
   letter-spacing: 0;
@@ -830,5 +983,9 @@ body {
   #controls button:active:not(:disabled) {
     transform: none;
   }
+
+  .result-overlay__content {
+  animation: none !important;
+}
 
 }
