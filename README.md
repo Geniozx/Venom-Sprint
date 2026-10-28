@@ -807,15 +807,64 @@ Venom-Sprint 2.1 builds upon the completed 2.0 release, focusing on improved mob
 - Improved the difficulty curve by introducing more gradual acceleration.
 - Manually tested and approved the updated speed progression.
 
-### 2.1.4 — Global Leaderboard ⏳ Planned
+### 2.1.4 — Global Leaderboard 🚧 In Progress
 
-- Introduce a universal leaderboard shared across players.
-- Allow players to compete for high-score rankings.
-- Design persistent score storage and retrieval.
-- Implement score submission and leaderboard display.
-- Evaluate score-validation measures to reduce fraudulent submissions.
+**Objective:** Introduce a persistent global leaderboard powered by a custom Node.js/Express API and PostgreSQL database while preserving the existing vanilla JavaScript frontend and GitHub Pages deployment.
 
-**Development status:** Venom-Sprint 2.1 is in active development. Mobile controls and speed balancing are complete; the global leaderboard remains planned.
+#### Confirmed Leaderboard Requirements
+
+- Players enter arcade nicknames without registering or signing in.
+- Every valid submitted game run is stored in PostgreSQL.
+- Individual runs are ranked independently.
+- Duplicate nicknames are permitted, including multiple appearances in the Top 10.
+- The public leaderboard displays the 10 highest-scoring runs.
+- Score submissions are validated by the backend before persistence.
+- The existing local high-score functionality remains available.
+
+#### Phase 2.1.4B — Express Backend Foundation ✅ Complete
+
+A separate Node.js backend has been initialized in the `server/` directory.
+
+**Technology stack:**
+- Node.js
+- Express 5
+- ES Modules
+- Nodemon for development
+- Native Node.js testing planned
+- PostgreSQL integration planned
+
+**Completed implementation:**
+- Initialized the independent `venom-sprint-api` npm package.
+- Installed Express and Nodemon.
+- Configured `npm start` and `npm run dev`.
+- Created `src/app.js` for Express application configuration.
+- Created `src/server.js` as the HTTP server entry point.
+- Enabled JSON request parsing.
+- Implemented `GET /api/health`.
+- Verified that the health endpoint returns HTTP 200 and valid JSON.
+- Added `.gitignore` to exclude dependencies and environment secrets.
+- Added `.env.example` for backend configuration.
+
+**Verified health response:**
+
+```json
+{
+  "status": "ok",
+  "service": "venom-sprint-api",
+  "version": "1.0.0"
+}
+```
+
+#### Next Phase — 2.1.4C: PostgreSQL Database Foundation ⏳
+
+- Configure the PostgreSQL development database.
+- Design and create the leaderboard schema.
+- Establish the Express-to-PostgreSQL connection.
+- Verify database connectivity.
+- Prepare for score submission and leaderboard retrieval.
+
+**Development status:** Venom-Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, and the Express backend foundation are complete. The global leaderboard remains in progress.
+
 
 ---
 
