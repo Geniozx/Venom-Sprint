@@ -772,7 +772,50 @@ Phase 5 transforms Venom-Sprint into a polished, portfolio-ready arcade game wit
 
 **Live Demo:** [Play Venom-Sprint 2.0](https://geniozx.github.io/Venom-Sprint/)
 
+
 **Release target:** Venom-Sprint 2.0 — portfolio-ready arcade game.
+
+---
+
+## Venom-Sprint 2.1 — Improvements & Enhancements 🚧
+
+Venom-Sprint 2.1 builds upon the completed 2.0 release, focusing on improved mobile compatibility, more responsive controls, balanced gameplay progression, and expanded competitive features.
+
+### 2.1.1 — Cross-Platform Mobile Directional Controls ✅
+
+- Replaced Unicode directional triangles with inline SVG graphics.
+- Resolved inconsistent directional-arrow rendering on iPhone browsers.
+- Preserved the existing neon arcade styling across devices.
+- Maintained accessible labels and directional button attributes.
+- Verified correct rendering of all four directional arrows on mobile devices.
+
+### 2.1.2 — Mobile Input Responsiveness ✅
+
+- Updated mobile directional controls to use `pointerdown` for immediate input handling.
+- Preserved keyboard accessibility through the existing click fallback.
+- Prevented duplicate direction handling from pointer-generated click events.
+- Retained shared direction validation and movement-locking behavior.
+- Verified mobile responsiveness during extended gameplay.
+- Confirmed desktop keyboard controls continue functioning correctly.
+
+### 2.1.3 — Gameplay Speed Balancing ✅
+
+- Reduced the speed increment from 10ms to 3ms per food pickup.
+- Preserved the initial movement interval of 200ms.
+- Preserved the minimum movement interval of 50ms.
+- Extended progression to maximum speed from 15 to 50 food pickups.
+- Improved the difficulty curve by introducing more gradual acceleration.
+- Manually tested and approved the updated speed progression.
+
+### 2.1.4 — Global Leaderboard ⏳ Planned
+
+- Introduce a universal leaderboard shared across players.
+- Allow players to compete for high-score rankings.
+- Design persistent score storage and retrieval.
+- Implement score submission and leaderboard display.
+- Evaluate score-validation measures to reduce fraudulent submissions.
+
+**Development status:** Venom-Sprint 2.1 is in active development. Mobile controls and speed balancing are complete; the global leaderboard remains planned.
 
 ---
 
@@ -815,3 +858,6 @@ These limitations do not prevent the game from functioning in the environments t
 **Phase 5** introduced neon arcade visuals, sound effects, customizable settings, enhanced result screens, and comprehensive final quality assurance.
 
 Future development will focus on continued accessibility improvements, gameplay enhancements, and broader browser compatibility.
+
+
+
