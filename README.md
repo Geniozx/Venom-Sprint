@@ -855,15 +855,57 @@ A separate Node.js backend has been initialized in the `server/` directory.
 }
 ```
 
-#### Next Phase — 2.1.4C: PostgreSQL Database Foundation ⏳
 
-- Configure the PostgreSQL development database.
-- Design and create the leaderboard schema.
-- Establish the Express-to-PostgreSQL connection.
-- Verify database connectivity.
-- Prepare for score submission and leaderboard retrieval.
+#### Phase 2.1.4C — PostgreSQL Database Foundation ✅
 
-**Development status:** Venom-Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, and the Express backend foundation are complete. The global leaderboard remains in progress.
+Implemented and verified the PostgreSQL foundation for the
+Venom Sprint global leaderboard.
+
+**Database setup**
+- PostgreSQL 17.6
+- Database: `venom_sprint`
+- Application role: `venom_sprint_user`
+- Dedicated database ownership and authenticated access
+
+**Leaderboard schema**
+- Created `leaderboard_scores` table
+- `id`: auto-generated BIGINT primary key
+- `nickname`: VARCHAR(12), required
+- `score`: INTEGER, required
+- `created_at`: timestamp with time zone, defaults to NOW()
+- Nicknames restricted to 3–12 letters, numbers, or underscores
+- Scores must be nonnegative
+- Duplicate nicknames are permitted
+
+**Ranking**
+- Highest score ranks first
+- Earlier submission wins score ties
+- Record ID provides deterministic final tie-breaking
+- Added composite ranking index for efficient Top 10 queries
+
+**Backend integration**
+- Installed `pg` and `dotenv`
+- Created reusable PostgreSQL connection pool
+- Database credentials loaded from local environment variables
+- Added `GET /api/health/db` endpoint
+- Database errors return HTTP 503 without exposing credentials
+- Saved schema in `server/src/db/migrations/001_create_leaderboard_scores.sql`
+
+**Verification**
+- PostgreSQL authentication: passed
+- Table structure and constraints: passed
+- Ranking index: passed
+- Top 10 query: passed (empty table expected)
+- Node.js database connection: passed
+- `GET /api/health`: HTTP 200
+- `GET /api/health/db`: HTTP 200
+
+**Next:** Implement the leaderboard API for retrieving and
+submitting scores, including server-side validation and
+anti-abuse protections.
+
+
+**Development status:** Venom-Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, the Express backend foundation, and the PostgreSQL database foundation are complete. The global leaderboard API, score validation, frontend integration, and deployment remain in progress.
 
 
 ---
