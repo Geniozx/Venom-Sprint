@@ -900,12 +900,91 @@ Venom Sprint global leaderboard.
 - `GET /api/health`: HTTP 200
 - `GET /api/health/db`: HTTP 200
 
-**Next:** Implement the leaderboard API for retrieving and
-submitting scores, including server-side validation and
-anti-abuse protections.
+
+**Next:** Integrate the leaderboard API with the vanilla JavaScript frontend, then prepare the backend for deployment.
+
+#### Phase 2.1.4D — Global Leaderboard API ✅ Complete
+
+Implemented and tested the Express API for persistent global leaderboard rankings, individual game sessions, and validated score submissions.
+
+**API endpoints**
+- `GET /api/leaderboard` — Returns the 10 highest-scoring runs.
+- `POST /api/runs` — Creates a game session with a unique UUID.
+- `POST /api/scores` — Validates and submits a score for an active session.
+
+**Leaderboard behavior**
+- Scores are ranked highest first.
+- Earlier submissions win score ties.
+- Record IDs provide deterministic final tie-breaking.
+- Duplicate nicknames and multiple entries from the same player are permitted.
+- Individual completed runs are stored in PostgreSQL.
+
+**Game session tracking**
+- Added migration `002_create_game_runs.sql`.
+- Created `game_runs` with UUID identifiers, start and expiration timestamps, completion timestamps, statuses, and linked score IDs.
+- Sessions expire after 24 hours.
+- Completed sessions must reference a saved leaderboard score.
+- Database constraints enforce valid statuses and completion consistency.
+
+**Score submission validation**
+- Run IDs must use a valid UUID format.
+- Nicknames must contain 3–12 letters, numbers, or underscores.
+- Scores must be safe integers between 0 and 1,000,000.
+- Nonexistent sessions return HTTP 404.
+- Previously completed or abandoned sessions return HTTP 409.
+- Expired sessions return HTTP 410.
+- Scores exceeding the theoretical gameplay limit return HTTP 422.
+
+**Transaction protection**
+- Score submissions use PostgreSQL transactions.
+- `SELECT ... FOR UPDATE` locks the game session during submission.
+- A score is inserted and its session marked completed within the same transaction.
+- Failed submissions are rolled back.
+- Concurrent submissions cannot successfully complete the same session twice.
+
+**Rate limiting**
+- Game session creation: 20 requests per 15 minutes.
+- Score submissions: 30 requests per 15 minutes.
+- Excessive requests return HTTP 429.
+- Standard rate-limit response headers are enabled.
+
+**Gameplay plausibility**
+- Added `src/utils/scorePlausibility.js`.
+- Uses a theoretical minimum movement interval of 50ms.
+- Allows up to 11 points per movement for a conservative upper bound.
+- Includes a two-second timing tolerance.
+- Rejects scores that exceed the calculated maximum for the elapsed session time.
+
+This is a preliminary anti-abuse measure, not proof of legitimate gameplay. A modified client could still fabricate plausible scores or wait before submitting. Stronger verification, potentially including deterministic gameplay replay, remains under consideration before public release.
+
+**Verification**
+- Leaderboard ranking and duplicate nicknames: passed.
+- Valid game session creation: HTTP 201.
+- Valid score submission: HTTP 201.
+- Invalid request validation: HTTP 400.
+- Nonexistent game session: HTTP 404.
+- Completed and abandoned session rejection: HTTP 409.
+- Expired session rejection: HTTP 410.
+- Impossible-score rejection: HTTP 422.
+- Rate-limit enforcement: HTTP 429.
+- Duplicate submission protection: passed.
+- Concurrent submission protection: passed.
+- Transaction rollback and database integrity: passed.
+- Gameplay plausibility boundary tests: passed.
+- JavaScript syntax checks: passed.
+- Development test records removed from PostgreSQL.
+
+**Remaining work**
+- Connect game startup to session creation.
+- Add arcade nickname submission to the result screen.
+- Display the global Top 10 leaderboard.
+- Configure frontend-to-backend communication and CORS.
+- Prepare backend deployment and production security configuration.
+- Evaluate stronger server-verifiable score validation before public release.
 
 
-**Development status:** Venom-Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, the Express backend foundation, and the PostgreSQL database foundation are complete. The global leaderboard API, score validation, frontend integration, and deployment remain in progress.
+**Development status:** Venom-Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, the Express backend foundation, PostgreSQL database foundation, and Global Leaderboard API are complete. Frontend leaderboard integration, deployment, and further anti-cheat improvements remain in progress.
+
 
 
 ---

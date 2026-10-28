@@ -1,5 +1,8 @@
 import express from "express";
 import pool from "./db/pool.js";
+import leaderboardRoutes from "./routes/leaderboard.js";
+import runRoutes from "./routes/runs.js";
+import scoreRoutes from "./routes/scores.js";
 
 const app = express();
 
@@ -30,5 +33,10 @@ app.get("/api/health/db", async (req, res) => {
     });
   }
 });
+
+// Global leaderboard routes
+app.use("/api/leaderboard", leaderboardRoutes);
+app.use("/api/runs", runRoutes);
+app.use("/api/scores", scoreRoutes);
 
 export default app;
