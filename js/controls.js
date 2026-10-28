@@ -117,6 +117,7 @@ export function setupKeyboardControls(
 
 
 // Set up mobile directional controls
+
 export function setupMobileControls(
     getDirection,
     setDirection,
@@ -129,7 +130,7 @@ export function setupMobileControls(
         return;
     }
 
-    mobileControls.addEventListener("click", (event) => {
+    function handleDirectionInput(event) {
         const button = event.target.closest("[data-direction]");
 
         if (!button || !mobileControls.contains(button)) {
@@ -138,7 +139,6 @@ export function setupMobileControls(
 
         const newDirection = button.dataset.direction;
 
-        // Reuse the same validation as keyboard controls
         changeDirection(
             newDirection,
             getDirection,
@@ -146,8 +146,25 @@ export function setupMobileControls(
             isGameStarted,
             isDirectionLocked
         );
+    }
+
+    // Respond immediately to touch, pen, and mouse presses
+    mobileControls.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || event.button !== 0) {
+            return;
+        }
+
+        handleDirectionInput(event);
+    });
+
+    // Preserve keyboard activation without double-processing touch
+    mobileControls.addEventListener("click", (event) => {
+        if (event.detail === 0) {
+            handleDirectionInput(event);
+        }
     });
 }
+
 
 // Set up game button controls
 export function setupButtonControls({

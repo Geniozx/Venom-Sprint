@@ -450,6 +450,18 @@ body {
     transform var(--transition-fast);
 }
 
+
+/* Consistent directional arrow rendering across devices */
+.mobile-controls__button svg {
+  display: block;
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+
 .mobile-controls__button:active {
   transform: scale(0.94);
   background: var(--accent-primary);

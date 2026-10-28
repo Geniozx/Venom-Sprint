@@ -406,7 +406,7 @@ cd Venom-Sprint
 Using Python 3:
 
 ```bash
-python3 -m http.server 5500
+python3 -m http.server 5500 --bind 0.0.0.0
 ```
 
 **4. Open the application**

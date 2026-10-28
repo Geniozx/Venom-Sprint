@@ -115,6 +115,7 @@
           <span id="gameStatusText">READY</span>
         </div>
 
+
         <!-- Mobile directional controls -->
         <div
           id="mobileControls"
@@ -128,7 +129,9 @@
             data-direction="up"
             aria-label="Move up"
           >
-            ▲
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 4 L22 20 H2 Z" fill="currentColor" />
+            </svg>
           </button>
 
           <button
@@ -137,7 +140,9 @@
             data-direction="left"
             aria-label="Move left"
           >
-            ◀
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 12 L20 2 V22 Z" fill="currentColor" />
+            </svg>
           </button>
 
           <button
@@ -146,7 +151,9 @@
             data-direction="down"
             aria-label="Move down"
           >
-            ▼
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M2 4 H22 L12 20 Z" fill="currentColor" />
+            </svg>
           </button>
 
           <button
@@ -155,9 +162,12 @@
             data-direction="right"
             aria-label="Move right"
           >
-            ▶
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M20 12 L4 2 V22 Z" fill="currentColor" />
+            </svg>
           </button>
         </div>
+
 
         <div id="controls">
           <button type="button" id="restartBtn">Restart</button>
