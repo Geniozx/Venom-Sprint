@@ -1,10 +1,22 @@
 import express from "express";
+import cors from "cors";
 import pool from "./db/pool.js";
 import leaderboardRoutes from "./routes/leaderboard.js";
 import runRoutes from "./routes/runs.js";
 import scoreRoutes from "./routes/scores.js";
 
 const app = express();
+
+// Allow requests from the local frontend.
+const allowedOrigins = [
+  "http://localhost:5500"
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
 
 app.use(express.json());
 

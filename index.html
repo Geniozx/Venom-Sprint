@@ -37,6 +37,16 @@
             alt="Venom-Sprint game logo"
           >
 
+          <!-- Leaderboard button displayed before gameplay -->
+          <button
+            type="button"
+            id="leaderboardBtn"
+            class="leaderboard-splash-button"
+            aria-haspopup="dialog"
+          >
+            🏆 Global Top 10
+          </button>
+
           <canvas
             id="gameBoard"
             width="400"
@@ -89,6 +99,37 @@
                 Final Score:
                 <span id="resultScore">0</span>
               </p>
+
+              <!-- Global leaderboard score submission -->
+              <form id="scoreSubmissionForm" hidden>
+                <label for="playerNickname">
+                  Enter Your Arcade Nickname
+                </label>
+
+                <input
+                  type="text"
+                  id="playerNickname"
+                  name="nickname"
+                  minlength="3"
+                  maxlength="12"
+                  pattern="[A-Za-z0-9_]{3,12}"
+                  autocomplete="off"
+                  spellcheck="false"
+                  placeholder="3–12 characters"
+                  required
+                >
+
+                <button type="submit" id="submitScoreBtn">
+                  Submit Score
+                </button>
+              </form>
+
+              <p
+                id="scoreSubmissionStatus"
+                role="status"
+                aria-live="polite"
+                hidden
+              ></p>
 
               <button type="button" id="playAgainBtn">
                 Play Again
@@ -190,6 +231,60 @@
       </div>
     </main>
 
+    <!-- Global Top 10 Leaderboard Modal -->
+    <div
+      id="leaderboardModal"
+      class="modal leaderboard-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="leaderboardModalTitle"
+      hidden
+    >
+      <div class="modal-content leaderboard-modal__content">
+
+        <button
+          type="button"
+          id="closeLeaderboardBtn"
+          class="leaderboard-modal__close"
+          aria-label="Close leaderboard"
+        >
+          &times;
+        </button>
+
+        <p class="leaderboard-modal__eyebrow">
+          VENOM SPRINT
+        </p>
+
+        <h2 id="leaderboardModalTitle">
+          🏆 Global Top 10
+        </h2>
+
+        <p
+          id="leaderboardStatus"
+          role="status"
+          aria-live="polite"
+        >
+          Loading leaderboard...
+        </p>
+
+        <div class="leaderboard-modal__table-wrapper">
+          <table id="leaderboardTable" hidden>
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Player</th>
+                <th scope="col">Score</th>
+              </tr>
+            </thead>
+
+            <tbody id="leaderboardTableBody">
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Help Modal -->
     <div
       id="helpModal"
@@ -217,6 +312,13 @@
           <li><b>End</b>: Stop the current game</li>
           <li><b>Help</b>: Open this modal</li>
           <li><b>🔊 / 🔇</b>: Turn game sounds on or off</li>
+          <li>
+            <b>Global Top 10</b>: View rankings before playing or while paused.
+          </li>
+
+          <li>
+            <b>Submit Score</b>: Enter a nickname after Game Over.
+          </li>
         </ul>
       </div>
     </div>

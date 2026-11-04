@@ -974,16 +974,82 @@ This is a preliminary anti-abuse measure, not proof of legitimate gameplay. A mo
 - JavaScript syntax checks: passed.
 - Development test records removed from PostgreSQL.
 
+**Next phase**
+- Frontend leaderboard integration is documented in Phase 2.1.4E.
+- Production deployment and security configuration remain outstanding.
+- Stronger server-verifiable score validation remains under consideration.
+
+
+
+#### Phase 2.1.4E — Frontend Global Leaderboard Integration ✅ Complete
+
+Integrated the Global Top 10 leaderboard into the existing vanilla JavaScript frontend, connecting gameplay sessions, score submissions, and live rankings to the Express/PostgreSQL backend.
+
+**Frontend API integration**
+- Added `js/leaderboardApi.js` for centralized API communication.
+- `createGameRun()` creates a unique backend session when gameplay begins.
+- `submitGameScore()` submits completed runs with an arcade nickname.
+- `fetchLeaderboard()` retrieves the Global Top 10 rankings.
+- API errors are handled without crashing the game.
+- Gameplay remains available in local-only mode if session creation fails.
+
+**Score submission**
+- Added an arcade nickname form to the Game Over and Victory screens.
+- Nicknames must contain 3–12 letters, numbers, or underscores.
+- Scores are submitted using the completed game's session UUID.
+- The Submit Score button is disabled while a request is processing.
+- Failed submissions display an error and allow retrying.
+- Successful submissions hide the nickname form and display confirmation.
+- The Global Top 10 opens automatically after successful submission.
+- Existing local high-score functionality remains unchanged.
+
+**Global Top 10 interface**
+- Added a Global Top 10 button to the splash screen.
+- The button disappears when gameplay begins.
+- The button reappears while gameplay is paused and disappears when resumed.
+- Added a dedicated leaderboard modal with neon arcade styling.
+- Displays rank, arcade nickname, and score.
+- Supports up to 10 ranked runs.
+- Handles empty leaderboard responses and API errors.
+- Fetches updated rankings whenever the leaderboard is opened.
+- Closing the leaderboard during a paused game does not resume gameplay.
+- The leaderboard can appear above the Game Over overlay after score submission.
+
+**Accessibility and responsive design**
+- Added keyboard-accessible leaderboard controls.
+- Supports closing the leaderboard using Escape or the X button.
+- Keeps keyboard focus inside the leaderboard dialog.
+- Restores focus to the appropriate control when the dialog closes.
+- Optimized leaderboard presentation for desktop and mobile.
+- Adjusted mobile Start button sizing and positioning.
+- Updated Help instructions while preserving the no-scroll game layout.
+
+**Verification**
+- Backend session creation during gameplay: passed.
+- Successful score submission and PostgreSQL persistence: passed.
+- Duplicate submission prevention: passed.
+- Failed submission and retry handling: passed.
+- Global Top 10 API retrieval: passed.
+- Leaderboard ranking and table rendering: passed.
+- Splash-screen leaderboard visibility: passed.
+- Pause/resume leaderboard visibility: passed.
+- Automatic leaderboard display after score submission: passed.
+- Game Over and Play Again functionality: passed.
+- Escape-to-close and keyboard focus handling: passed.
+- Desktop and mobile responsiveness: passed.
+- Help modal layout and no-scroll behavior: passed.
+- Final frontend regression testing: passed.
+
 **Remaining work**
-- Connect game startup to session creation.
-- Add arcade nickname submission to the result screen.
-- Display the global Top 10 leaderboard.
-- Configure frontend-to-backend communication and CORS.
-- Prepare backend deployment and production security configuration.
+- Deploy the Express/PostgreSQL backend to a production hosting provider.
+- Configure the production API URL for the GitHub Pages frontend.
+- Configure production CORS and environment variables.
+- Verify the complete leaderboard workflow against the deployed backend.
 - Evaluate stronger server-verifiable score validation before public release.
 
 
-**Development status:** Venom-Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, the Express backend foundation, PostgreSQL database foundation, and Global Leaderboard API are complete. Frontend leaderboard integration, deployment, and further anti-cheat improvements remain in progress.
+
+**Development status:** Venom Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, the Express backend, PostgreSQL database, Global Leaderboard API, and frontend leaderboard integration are complete and locally tested. Production backend deployment, GitHub Pages API configuration, production integration testing, and further anti-cheat improvements remain outstanding.
 
 
 
