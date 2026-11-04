@@ -1,4 +1,7 @@
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL =
+  window.location.hostname === "geniozx.github.io"
+    ? "https://venom-sprint-api.onrender.com"
+    : "http://localhost:3000";
 
 async function apiRequest(path, options = {}) {
   const response = await fetch(`${API_BASE_URL}${path}`, {

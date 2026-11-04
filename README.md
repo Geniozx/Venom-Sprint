@@ -1081,7 +1081,12 @@ Prepare the Global Top 10 leaderboard backend for production deployment using Re
 - Instance type: Free.
 - Configured `DATABASE_URL` using the Neon pooled connection string.
 - Configured `NODE_ENV=production`.
-- Render deployment remains pending.
+- Successfully deployed the Express API to Render.
+- Production API: https://venom-sprint-api.onrender.com
+- Verified the production API health endpoint.
+- Verified Render-to-Neon PostgreSQL connectivity.
+- Updated PostgreSQL SSL configuration to use sslmode=verify-full while preserving required channel binding.
+- Confirmed successful redeployment and database connectivity after the SSL update.
 
 **Production CORS and reverse-proxy configuration**
 - Preserved localhost access for frontend development.
@@ -1100,16 +1105,34 @@ Prepare the Global Top 10 leaderboard backend for production deployment using Re
 - Unauthorized origin CORS test: passed.
 - Existing application routes and middleware preserved.
 
+**Frontend production API configuration**
+- Updated js/leaderboardApi.js to select the backend automatically based on the frontend hostname.
+- Local development uses http://localhost:3000.
+- GitHub Pages uses https://venom-sprint-api.onrender.com.
+- Preserved the existing game-session, score-submission, and leaderboard API functions.
+- Verified JavaScript syntax.
+- Verified local frontend leaderboard requests return HTTP 200.
+- Verified the production leaderboard endpoint returns valid JSON.
+- Published GitHub Pages frontend integration remains pending.
+
+**Production security verification**
+- Verified production CORS permits the GitHub Pages origin.
+- Verified production CORS does not grant access to the tested unauthorized origin.
+- Confirmed game-session creation returns HTTP 201 with rate-limit headers.
+- Reviewed Render logs; no express-rate-limit proxy warnings were observed.
+- Verified the production dependency audit reports zero known vulnerabilities.
+- Identified two moderate-severity findings in development dependencies.
+- Accurate client-IP identification behind Render remains pending independent verification.
+
 **Remaining work**
-- Commit and push production configuration changes.
-- Deploy the Express API to Render.
-- Verify Render API health and Neon database connectivity.
-- Verify reverse-proxy behavior and IP-based rate limiting.
-- Configure the GitHub Pages frontend to use the production API URL.
-- Test game-session creation, score submission, and Global Top 10 retrieval in production.
-- Verify desktop and mobile gameplay integration.
-- Complete final production regression testing.
+- Commit and push frontend API configuration and documentation.
+- Verify GitHub Pages communicates with the deployed Render API.
+- Test production game-session creation, score submission, and Global Top 10 retrieval through the public frontend.
+- Verify Render reverse-proxy client-IP identification and rate-limiting behavior.
+- Complete desktop and mobile production regression testing.
+- Review outstanding development dependency vulnerabilities.
 - Evaluate stronger server-verifiable score validation before public release.
+- Mark Phase 2.1.4F complete after final verification.
 
 
 
