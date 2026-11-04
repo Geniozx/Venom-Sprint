@@ -1113,7 +1113,11 @@ Prepare the Global Top 10 leaderboard backend for production deployment using Re
 - Verified JavaScript syntax.
 - Verified local frontend leaderboard requests return HTTP 200.
 - Verified the production leaderboard endpoint returns valid JSON.
-- Published GitHub Pages frontend integration remains pending.
+- Published GitHub Pages frontend successfully connected to the production Render API.
+- Verified production leaderboard retrieval returns HTTP 200 and valid JSON.
+- Verified production game-session creation returns HTTP 201 and a valid run UUID.
+- Verified production score submission and Global Top 10 display through the live game.
+- Removed production test records and confirmed the test entry disappeared from the live leaderboard.
 
 **Production security verification**
 - Verified production CORS permits the GitHub Pages origin.
@@ -1122,22 +1126,73 @@ Prepare the Global Top 10 leaderboard backend for production deployment using Re
 - Reviewed Render logs; no express-rate-limit proxy warnings were observed.
 - Verified the production dependency audit reports zero known vulnerabilities.
 - Identified two moderate-severity findings in development dependencies.
-- Accurate client-IP identification behind Render remains pending independent verification.
+- Confirmed Express 5.3.0 and express-rate-limit 8.7.1 configurations.
+- Verified local Express proxy behavior with a simulated X-Forwarded-For chain.
+- Reviewed Render's documented client-IP forwarding behavior.
+- Confirmed production rate-limit headers include an opaque partition key.
+- Verified the production score-submission limiter returns the configured 30-request limit within a 15-minute window.
+- Confirmed intentionally invalid score submissions return HTTP 400 without reaching the score-insertion path.
+- Compared production rate-limit partition keys across normal requests and requests containing client-supplied X-Forwarded-For headers.
+- Confirmed consecutive normal requests shared a rate-limit partition and decremented the remaining-request counter.
+- Confirmed a subsequent request with a different supplied X-Forwarded-For address retained the same partition and continued decrementing the counter.
+- Observed an earlier unexplained partition-key change; the tests do not conclusively establish correct client-IP attribution or complete forwarded-header spoofing resistance.
+- Accepted the remaining proxy-attribution uncertainty for this release, with further verification recommended during future security maintenance.
+- Retained the existing Express trust proxy configuration without production changes.
+
+
+**Dependency security audit**
+- Ran `npm audit` and identified two moderate-severity findings in the development dependency chain involving `nodemon` and `minimatch`.
+- The reported `minimatch` advisory concerns potential denial of service through glob-pattern processing.
+- Ran `npm audit --omit=dev` and confirmed zero reported production dependency vulnerabilities.
+- Reviewed npm's suggested automatic fix, which would install `nodemon@1.0.2` and introduce a breaking dependency change.
+- Decided not to run `npm audit fix --force` during the production release review.
+- Accepted the remaining development-only findings for this release, with dependency remediation deferred to a future maintenance update.
+- These findings remain unresolved and should be reviewed again when compatible dependency updates are available.
+
+
+
+**Server-side score validation and leaderboard abuse review**
+- Reviewed the complete frontend game-session lifecycle, including session creation, game completion, and manual score submission.
+- Improved the server-side score-plausibility calculation to account for the game's initial 200 ms movement interval, 50 ms minimum interval, and 3 ms acceleration after food collection.
+- Preserved the existing 2-second timing tolerance.
+- Used a generous theoretical maximum of 11 points per movement to avoid rejecting legitimate scores unnecessarily.
+- Added automated tests using Node.js's built-in test runner.
+- Confirmed all 11 score-plausibility unit tests pass.
+- Verified the exact theoretical boundary at zero elapsed time: 110 points accepted and 111 rejected.
+- Completed a local 24-hour session benchmark without identifying a performance problem in that single test.
+- Reviewed the existing 24-hour game-session expiration policy and retained it for version 2.1.
+- Confirmed that players manually submit scores after gameplay ends, so shorter expiration periods could reject delayed legitimate submissions.
+- Confirmed that database transactions and session row locking protect against duplicate submissions of the same run.
+- Recognized that client-generated scores remain susceptible to fabrication within the theoretical timing limits.
+- Score-plausibility validation is an abuse-mitigation measure, not proof of legitimate gameplay.
+- Stronger server-verifiable gameplay validation may be considered for a future version.
+
+
+**Production regression testing**
+- Completed all eight desktop gameplay regression checks.
+- Completed all ten mobile gameplay regression checks.
+- Verified keyboard and touch controls, scoring, pause/resume, restart, Help modal, and Game Over.
+- Verified responsive mobile layout without unwanted scrolling.
+- Confirmed production leaderboard integration remained functional.
+
+
+**Completed security review**
+- Reviewed server-side score validation and leaderboard abuse risks.
+- Implemented speed-aware score-plausibility validation.
+- Added and passed 11 automated unit tests.
+- Reviewed and retained the 24-hour session expiration policy.
+- Documented the limitations of client-generated scores.
+- Reviewed and documented the two moderate-severity development dependency findings; remediation deferred to a future maintenance update.
 
 **Remaining work**
-- Commit and push frontend API configuration and documentation.
-- Verify GitHub Pages communicates with the deployed Render API.
-- Test production game-session creation, score submission, and Global Top 10 retrieval through the public frontend.
-- Verify Render reverse-proxy client-IP identification and rate-limiting behavior.
-- Complete desktop and mobile production regression testing.
-- Review outstanding development dependency vulnerabilities.
-- Evaluate stronger server-verifiable score validation before public release.
-- Mark Phase 2.1.4F complete after final verification.
+- Commit and push the completed Phase 2.1.4F changes.
+- Deploy the updated backend to Render.
+- Verify production functionality after deployment.
+- Mark Phase 2.1.4F complete after successful production verification.
 
 
 
-
-**Development status:** Venom Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, the Express backend, PostgreSQL database, Global Leaderboard API, and frontend leaderboard integration are complete and locally tested. Production backend deployment, GitHub Pages API configuration, production integration testing, and further anti-cheat improvements remain outstanding.
+**Development status:** Venom Sprint 2.1 has completed production deployment and integration testing. The vanilla JavaScript frontend is deployed through GitHub Pages, the Express API is hosted on Render, and PostgreSQL is hosted on Neon. Production game-session creation, score submission, Global Top 10 retrieval, and desktop/mobile regression testing have passed. Final security review and release documentation remain in progress.
 
 
 
