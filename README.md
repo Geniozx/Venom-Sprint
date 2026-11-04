@@ -1049,6 +1049,71 @@ Integrated the Global Top 10 leaderboard into the existing vanilla JavaScript fr
 
 
 
+
+#### Phase 2.1.4F — Production Deployment & Integration ⏳ In Progress
+
+Prepare the Global Top 10 leaderboard backend for production deployment using Render and Neon PostgreSQL while retaining GitHub Pages for the vanilla JavaScript frontend.
+
+**Production hosting architecture**
+- Frontend: GitHub Pages.
+- Backend: Render free-tier Node.js/Express web service.
+- Database: Neon free-tier PostgreSQL.
+- The frontend and backend remain independently hosted.
+- Production API communication will use HTTPS.
+
+**Neon PostgreSQL configuration**
+- Created the `venom-sprint` Neon database project.
+- Configured the backend to use Neon's pooled PostgreSQL connection.
+- Successfully verified database connectivity using `/api/health/db`.
+- Executed the existing leaderboard and game-run migrations.
+- Verified database tables, indexes, and foreign-key relationships.
+- Tested session creation, score submission, and leaderboard retrieval against Neon.
+- Confirmed successful frontend leaderboard integration with Neon.
+- Removed temporary test records after verification.
+
+**Render deployment preparation**
+- Selected the `Geniozx/Venom-Sprint` GitHub repository.
+- Configured the Render web service as `venom-sprint-api`.
+- Branch: `main`.
+- Root directory: `server`.
+- Build command: `npm ci`.
+- Start command: `npm start`.
+- Instance type: Free.
+- Configured `DATABASE_URL` using the Neon pooled connection string.
+- Configured `NODE_ENV=production`.
+- Render deployment remains pending.
+
+**Production CORS and reverse-proxy configuration**
+- Preserved localhost access for frontend development.
+- Added `http://127.0.0.1:5500` as an additional development origin.
+- Added `https://geniozx.github.io` as the production frontend origin.
+- Restricted CORS to the configured origins and supported request methods.
+- Configured Express to trust one reverse-proxy hop.
+- Preserved existing game-session and score-submission rate limiters.
+- Production client-IP forwarding and rate-limiting behavior require verification after deployment.
+
+**Local production-readiness verification**
+- JavaScript syntax check: passed.
+- Express server startup: passed.
+- API health endpoint: passed.
+- Authorized GitHub Pages origin CORS test: passed.
+- Unauthorized origin CORS test: passed.
+- Existing application routes and middleware preserved.
+
+**Remaining work**
+- Commit and push production configuration changes.
+- Deploy the Express API to Render.
+- Verify Render API health and Neon database connectivity.
+- Verify reverse-proxy behavior and IP-based rate limiting.
+- Configure the GitHub Pages frontend to use the production API URL.
+- Test game-session creation, score submission, and Global Top 10 retrieval in production.
+- Verify desktop and mobile gameplay integration.
+- Complete final production regression testing.
+- Evaluate stronger server-verifiable score validation before public release.
+
+
+
+
 **Development status:** Venom Sprint 2.1 is in active development. Mobile controls, input responsiveness, gameplay speed balancing, the Express backend, PostgreSQL database, Global Leaderboard API, and frontend leaderboard integration are complete and locally tested. Production backend deployment, GitHub Pages API configuration, production integration testing, and further anti-cheat improvements remain outstanding.
 
 
