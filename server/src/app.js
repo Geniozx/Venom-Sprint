@@ -10,11 +10,14 @@ const app = express();
 // Trust Render's immediate reverse proxy.
 app.set("trust proxy", 1);
 
-// Allow requests from local development and GitHub Pages.
+// Allow requests from local development, GitHub Pages, and Netlify.
 const allowedOrigins = [
   "http://localhost:5500",
   "http://127.0.0.1:5500",
-  "https://geniozx.github.io"
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "https://geniozx.github.io",
+  "https://eli-rodriguez-portfolio.netlify.app"
 ];
 
 app.use(cors({
